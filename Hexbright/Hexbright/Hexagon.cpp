@@ -52,19 +52,23 @@ void Hexagon::Draw(unsigned int color,int fillFlag)const{
 void Hexagon::Draw(unsigned int color,int fillFlag,unsigned int incolor)const{
 	//’¸“_6‚Â‚ğ‹‚ß‚é
 	Vertexs vs=GetPoints();
-	//•Ó‚Ì•`‰æ
-	for(int i=0;i<vs.vnum;i++){
-		DrawLine((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
-			,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
-			,color);
-	}
 	//’†‚Ì•`‰æ(—×Ú‚·‚é‚Q“_‚Æ’†S“_‚É‚æ‚éOŠpŒ`‚ğ‚U‚Â•`‰æ‚·‚é)
+	//’†‚ğ‰‚ß‚É•`‰æ‚µ‚È‚¢‚Æ•Ó‚ª’†‚Æ‚Íˆá‚Á‚½F‚ÉŒ©‚¦‚È‚­‚È‚é
 	if(fillFlag==TRUE){
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA,128);
 		for(int i=0;i<vs.vnum;i++){
 			DrawTriangle((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
 				,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
 				,(int)(m_center.x),(int)(m_center.y)
 				,color,TRUE);
 		}
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND,255);
 	}
+	//•Ó‚Ì•`‰æ
+	for(int i=0;i<vs.vnum;i++){
+		DrawLine((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
+			,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
+			,color);
+	}
+
 }

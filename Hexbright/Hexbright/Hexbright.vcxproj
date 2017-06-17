@@ -119,16 +119,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NormalBlock.cpp" />
     <ClCompile Include="ToolsLib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="GraphicControl.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="NormalBlock.h" />
     <ClInclude Include="ToolsLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

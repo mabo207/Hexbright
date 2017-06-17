@@ -1,0 +1,58 @@
+#ifndef DEF_BLOCK_H
+#define DEF_BLOCK_H
+
+#include<memory>
+#include<vector>
+#include"Hexagon.h"
+
+//ステージ上に置かれるオブジェクト
+//0個以上3個以下の導線を持つ。導線の端点は正六角形の辺の中点にある。
+class Block{
+	//列挙体・型
+public:
+	//導線
+	struct Conductor{
+	private:
+		//導線の２端点の番号(0->1が0,...,4->5が4,5->0が5。%6すると扱いやすい)
+		//常にn0<n1になるようにする
+		int n0,n1;
+	public:
+		Conductor();//存在しない導線を作る
+		Conductor(int i_n0,int i_n1);
+		void turn(int n);//回転させる
+		int GetN(int i)const;//n[N]の値を取る
+		int GetOtherN(int n)const;//nでない方の別の端点番号を返す
+		bool JudgeCross(const Conductor &otherobj)const;//交差判定(交差したらtrue)
+		bool JudgeExist()const;//存在する導線か（falseなら非実在を示す）
+	};
+
+	//定数
+protected:
+	static const int lineThick;
+	static const unsigned int lineColor;
+
+public:
+	static const Vector2D BaseVector;
+
+	//変数
+protected:
+	std::shared_ptr<Hexagon> m_shape;//形状・モノクロ描画形式(位置大きさとどのくらい綺麗に表示するか)
+	std::vector<Conductor> m_conductors;//導線群
+
+	//関数
+protected:
+	virtual unsigned int GetColor()const=0;//ブロックの種類によって決定する色コードを取得する
+
+public:
+	Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors);
+	Block(Vector2D center,const std::vector<Conductor> &conductors);
+	~Block();
+
+	//普通の関数
+	void Draw()const;
+	Conductor GetConductor(int n)const;//入口の番号からそのブロックが持っている導線を返す
+	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)
+};
+
+#endif // !DEF_BLOCK_H
+#pragma once

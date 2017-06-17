@@ -8,7 +8,7 @@
 //Vector2D‚É‚Â‚¢‚Ä‚ÌŠÖ”
 Vector2D Vector2D::turn(double radian)const{
 	float cos=(float)(std::cos(radian)),sin=(float)(std::sin(radian));
-	return Vector2D(x*cos+y*sin,-x*sin+y*cos);	
+	return Vector2D(x*cos-y*sin,x*sin+y*cos);	
 }
 
 Vector2D GetMousePointVector2D(){

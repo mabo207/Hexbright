@@ -25,6 +25,12 @@
     <Filter Include="ソース ファイル\GameObject">
       <UniqueIdentifier>{8dbdbb9e-d7e6-4b63-9d02-b18e54e90a68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject\Block">
+      <UniqueIdentifier>{fbfd6a58-a8a4-41d3-8cf1-f47bc90cf7a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameObject\Block">
+      <UniqueIdentifier>{4ace7089-4499-4687-b415-6dfe890aacfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,12 @@
     <ClCompile Include="Hexagon.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>ソース ファイル\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalBlock.cpp">
+      <Filter>ソース ファイル\GameObject\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicControl.h">
@@ -55,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="Hexagon.h">
       <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>ヘッダー ファイル\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>ヘッダー ファイル\GameObject\Block</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

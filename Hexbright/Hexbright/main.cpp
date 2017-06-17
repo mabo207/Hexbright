@@ -3,7 +3,7 @@
 #include"input.h"
 #include"ToolsLib.h"
 
-#include"Hexagon.h"
+#include"NormalBlock.h"
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//dxライブラリの初期化
@@ -32,18 +32,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//入力機構の初期化
 	InitInputControler();
 
-	Vector2D c=Vector2D(400,300),r=Vector2D(-40,0);
+	Vector2D c=Vector2D(400,300),r=Vector2D(0,-40);
 	Hexagon bh(c,Hexagon(c+r,r).GetPoints().GetPoint(5)-c);
-
-	Hexagon h[7]={
-		Hexagon(bh.GetPoints().GetPoint(0),r)
-		,Hexagon(bh.GetPoints().GetPoint(1),r)
-		,Hexagon(bh.GetPoints().GetPoint(5),r)
-		,Hexagon(c,r)
-		,Hexagon(bh.GetPoints().GetPoint(2),r)
-		,Hexagon(bh.GetPoints().GetPoint(4),r)
-		,Hexagon(bh.GetPoints().GetPoint(3),r)
-	};
 
 	unsigned int col[7]={
 		GetColor(255,0,0)
@@ -55,6 +45,26 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		,GetColor(255,255,255)
 	};
 
+	Hexagon h[7]={
+		Hexagon(bh.GetPoints().GetPoint(0),r)
+		,Hexagon(bh.GetPoints().GetPoint(1),r)
+		,Hexagon(bh.GetPoints().GetPoint(5),r)
+		,Hexagon(c,r)
+		,Hexagon(bh.GetPoints().GetPoint(2),r)
+		,Hexagon(bh.GetPoints().GetPoint(4),r)
+		,Hexagon(bh.GetPoints().GetPoint(3),r)
+	};
+	
+	std::vector<std::shared_ptr<Block>> b={
+		std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(0),std::vector<Block::Conductor>{Block::Conductor(1,2)}))
+		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(1),std::vector<Block::Conductor>{Block::Conductor(4,2)}))
+		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(5),std::vector<Block::Conductor>{Block::Conductor(0,1),Block::Conductor(2,3)}))
+		,std::shared_ptr<Block>(new NormalBlock(c,std::vector<Block::Conductor>{Block::Conductor(0,5),Block::Conductor(1,2),Block::Conductor(3,4)}))
+		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(2),std::vector<Block::Conductor>{Block::Conductor(3,4)}))
+		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(4),std::vector<Block::Conductor>{Block::Conductor(0,5),Block::Conductor(1,4),Block::Conductor(2,3)}))
+		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(3),std::vector<Block::Conductor>{Block::Conductor(2,4),Block::Conductor(1,5)}))
+
+	};
 	//アプリケーション動作
 	while(ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 		//ゲーム本体
@@ -66,7 +76,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 			flag=TRUE;
 		}
 		for(int i=0;i<7;i++){
-			h[i].Draw(col[i],flag);
+			b[i].get()->Draw();
 		}
 		//計算処理
 		int index=-keyboard_get(KEY_INPUT_BACK);
