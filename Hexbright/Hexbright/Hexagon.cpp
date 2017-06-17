@@ -1,0 +1,70 @@
+#define _USE_MATH_DEFINES
+#include"DxLib.h"
+#include"Hexagon.h"
+
+//---------------Vertexs----------------
+Hexagon::Vertexs::Vertexs(Vector2D i_p0,Vector2D i_p1,Vector2D i_p2,Vector2D i_p3,Vector2D i_p4,Vector2D i_p5){
+	p[0]=i_p0;
+	p[1]=i_p1;
+	p[2]=i_p2;
+	p[3]=i_p3;
+	p[4]=i_p4;
+	p[5]=i_p5;
+}
+
+Vector2D Hexagon::Vertexs::GetPoint(int n)const{
+	if(n>=0 && n<vnum){
+		return p[n];
+	}
+	return Vector2D(0,0);
+}
+
+bool Hexagon::Vertexs::SetPoint(int n,Vector2D v){
+	if(n>=0 && n<vnum){
+		p[n]=v;
+		return true;
+	}
+	return false;
+}
+
+
+//---------------Hexagon----------------
+Hexagon::Hexagon(Vector2D center,Vector2D baseVector)
+	:m_center(center),m_baseVector(baseVector){}
+
+Hexagon::~Hexagon(){}
+
+Hexagon::Vertexs Hexagon::GetPoints()const{
+	return Vertexs(
+		Vector2D(m_center+m_baseVector.turn(M_PI*0/3)),
+		Vector2D(m_center+m_baseVector.turn(M_PI*1/3)),
+		Vector2D(m_center+m_baseVector.turn(M_PI*2/3)),
+		Vector2D(m_center+m_baseVector.turn(M_PI*3/3)),
+		Vector2D(m_center+m_baseVector.turn(M_PI*4/3)),
+		Vector2D(m_center+m_baseVector.turn(M_PI*5/3))
+	);
+}
+
+void Hexagon::Draw(unsigned int color,int fillFlag)const{
+	Draw(color,fillFlag,color);
+}
+
+void Hexagon::Draw(unsigned int color,int fillFlag,unsigned int incolor)const{
+	//’¸“_6‚Â‚ð‹‚ß‚é
+	Vertexs vs=GetPoints();
+	//•Ó‚Ì•`‰æ
+	for(int i=0;i<vs.vnum;i++){
+		DrawLine((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
+			,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
+			,color);
+	}
+	//’†‚Ì•`‰æ(—×Ú‚·‚é‚Q“_‚Æ’†S“_‚É‚æ‚éŽOŠpŒ`‚ð‚U‚Â•`‰æ‚·‚é)
+	if(fillFlag==TRUE){
+		for(int i=0;i<vs.vnum;i++){
+			DrawTriangle((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
+				,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
+				,(int)(m_center.x),(int)(m_center.y)
+				,color,TRUE);
+		}
+	}
+}
