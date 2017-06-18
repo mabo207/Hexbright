@@ -43,7 +43,10 @@ public:
 	}
 	Vector2D norm()const {
 		float siz = size();
-		return Vector2D(x / siz, y / siz);
+		if(siz!=0.0){
+			return Vector2D(x / siz,y / siz);
+		}
+		return Vector2D(0.0,0.0);
 	}
 	//時計回りに回転させた時のベクトルを返す(角度の単位はラジアン)
 	Vector2D turn(double radian)const;

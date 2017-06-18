@@ -39,6 +39,19 @@ void Stage::Draw(const Vector2D &center)const{
 	}
 }
 
-void Stage::PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock){
-	m_blocks.insert(BlockInfo(pos,pblock));
+bool Stage::PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock,Vector2D center){
+	pblock.get()->Move(center+pos.relativecoordinates(Block::BaseVector));
+	return m_blocks.insert(BlockInfo(pos,pblock)).second;
 }
+
+std::shared_ptr<const Block> Stage::GetBlock(const PutPos &pos)const{
+	//キー検索はposのみでできるのでこれでよい
+	std::set<BlockInfo>::const_iterator it=m_blocks.find(BlockInfo(pos,std::shared_ptr<Block>(nullptr)));
+	if(it!=m_blocks.end()){
+		return it->pBlock;
+	}
+	//もしブロックが存在しなければnullptrを返す
+	return std::shared_ptr<const Block>(nullptr);
+}
+
+

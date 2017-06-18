@@ -3,9 +3,10 @@
 #include"input.h"
 #include"ToolsLib.h"
 
+#include<time.h>
 #include"NormalBlock.h"
 #include"Stage.h"
-
+#include"PuzzleSystem.h"
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//dxライブラリの初期化
@@ -67,24 +68,22 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(3),std::vector<Block::Conductor>{Block::Conductor(2,4),Block::Conductor(1,5)}))
 	};
 
+	
 	Stage st(4);
 
+	PuzzleSystem puzzle;
+	SRand(123456);
+	
 	//アプリケーション動作
 	while(ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 		//ゲーム本体
 		//キー情報更新
 		input_update();
 		//描画
-		int flag=FALSE;
-		if(keyboard_get(KEY_INPUT_NUMPADENTER)>0){
-			flag=TRUE;
-		}
-		st.Draw(c);
-		for(int i=0;i<7;i++){
-			b[i].get()->Draw();
-		}
+		puzzle.Draw();
+		puzzle.Update();
 		//計算処理
-		int index=-keyboard_get(KEY_INPUT_BACK);
+		int index=-keyboard_get(KEY_INPUT_ESCAPE);
 		//終了検出
 		if(index<0){
 			break;

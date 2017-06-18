@@ -44,12 +44,15 @@ public:
 		return PutPos(x/a,y/a);
 	}
 	bool operator<(const PutPos &otherobj)const;//x→yの順に大きさ比較
+	bool operator==(const PutPos &otherobj)const{
+		return (x==otherobj.x && y==otherobj.y);
+	}
 	PutPos operator-()const{
 		return (*this)*(-1);
 	}
 	//関数
 	size_t size()const;//xとyの絶対値の和。１次ノルム。
-	Vector2D relativecoordinates(Vector2D upbaseVec)const;//真上の向きのブロックの大きさを定める基準ベクトルから、中心からの相対座標を出す
+	Vector2D relativecoordinates(Vector2D upbaseVec)const;//真上の向きのブロックの大きさを定める基準ベクトルから、ステージの中心からの相対位置の座標を出す
 
 	//静的関数
 	static PutPos BaseVec(Direction dir);//各方向の単位ベクトルを返す

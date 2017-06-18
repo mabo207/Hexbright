@@ -48,7 +48,7 @@ int Block::Conductor::GetOtherN(int n)const{
 }
 
 bool Block::Conductor::JudgeExist()const{
-	return (n0<0 || n0>=6 || n1<0 || n1>=6);
+	return !(n0<0 || n0>=6 || n1<0 || n1>=6);
 }
 
 //-------------------Block-------------------
@@ -76,6 +76,18 @@ void Block::Draw()const{
 	}
 }
 
+void Block::Draw(Vector2D pos)const{
+	//³˜ZŠpŒ`‚Ì•`‰æ
+	m_shape.get()->Draw(pos,GetColor(),128);
+	//“±ü‚Ì•`‰æ
+	Hexagon::Vertexs vs=m_shape.get()->GetPoints(pos);
+	for(Conductor c:m_conductors){
+		Vector2D v0=(vs.GetPoint(c.GetN(0))+vs.GetPoint((c.GetN(0)+1)%Hexagon::Vertexs::vnum))/2
+			,v1=(vs.GetPoint(c.GetN(1))+vs.GetPoint((c.GetN(1)+1)%Hexagon::Vertexs::vnum))/2;
+		DrawLine((int)(v0.x),(int)(v0.y),(int)(v1.x),(int)(v1.y),lineColor,lineThick);
+	}
+}
+
 Block::Conductor Block::GetConductor(int n)const{
 	for(Conductor c:m_conductors){
 		if(n==c.GetN(0) || n==c.GetN(1)){
@@ -83,6 +95,10 @@ Block::Conductor Block::GetConductor(int n)const{
 		}
 	}
 	return Conductor();
+}
+
+Vector2D Block::GetVertexPos(int n)const{
+	return (m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum)%Hexagon::Vertexs::vnum)+m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum+1)%Hexagon::Vertexs::vnum))/2;
 }
 
 void Block::Turn(int n){

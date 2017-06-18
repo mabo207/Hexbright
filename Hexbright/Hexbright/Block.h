@@ -50,8 +50,17 @@ public:
 
 	//普通の関数
 	void Draw()const;
+	void Draw(Vector2D pos)const;
 	Conductor GetConductor(int n)const;//入口の番号からそのブロックが持っている導線を返す
+	Vector2D GetVertexPos(int n)const;//辺番号からその位置を返す
 	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)
+	void Move(Vector2D pos){
+		//posに中心を動かす
+		m_shape.get()->Move(pos);
+	}
+	std::vector<Conductor> GetConductors()const{
+		return m_conductors;
+	}
 };
 
 #endif // !DEF_BLOCK_H

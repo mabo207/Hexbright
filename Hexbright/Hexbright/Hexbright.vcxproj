@@ -126,6 +126,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalBlock.cpp" />
     <ClCompile Include="PutPos.cpp" />
+    <ClCompile Include="PuzzleSystem.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="ToolsLib.cpp" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="NormalBlock.h" />
     <ClInclude Include="PutPos.h" />
+    <ClInclude Include="PuzzleSystem.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="ToolsLib.h" />
   </ItemGroup>

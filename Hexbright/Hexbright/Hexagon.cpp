@@ -35,26 +35,37 @@ Hexagon::Hexagon(Vector2D center,Vector2D baseVector)
 Hexagon::~Hexagon(){}
 
 Hexagon::Vertexs Hexagon::GetPoints()const{
+	return GetPoints(m_center);
+}
+
+Hexagon::Vertexs Hexagon::GetPoints(Vector2D pos)const{
 	return Vertexs(
-		Vector2D(m_center+m_baseVector.turn(M_PI*0/3)),
-		Vector2D(m_center+m_baseVector.turn(M_PI*1/3)),
-		Vector2D(m_center+m_baseVector.turn(M_PI*2/3)),
-		Vector2D(m_center+m_baseVector.turn(M_PI*3/3)),
-		Vector2D(m_center+m_baseVector.turn(M_PI*4/3)),
-		Vector2D(m_center+m_baseVector.turn(M_PI*5/3))
+		Vector2D(pos+m_baseVector.turn(M_PI*0/3)),
+		Vector2D(pos+m_baseVector.turn(M_PI*1/3)),
+		Vector2D(pos+m_baseVector.turn(M_PI*2/3)),
+		Vector2D(pos+m_baseVector.turn(M_PI*3/3)),
+		Vector2D(pos+m_baseVector.turn(M_PI*4/3)),
+		Vector2D(pos+m_baseVector.turn(M_PI*5/3))
 	);
 }
 
 void Hexagon::Draw(unsigned int color,int alpha)const{
-	Draw(color,alpha,color);
+	Draw(m_center,color,alpha,color);
 }
 
 void Hexagon::Draw(unsigned int color,int alpha,unsigned int incolor)const{
+	Draw(m_center,color,alpha,incolor);
+}
+
+void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha)const{
+	Draw(pos,color,alpha,color);
+}
+
+void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha,unsigned int incolor)const{
 	//’¸“_6‚Â‚ð‹‚ß‚é
-	Vertexs vs=GetPoints();
+	Vertexs vs=GetPoints(pos);
 	//’†‚Ì•`‰æ(—×Ú‚·‚é‚Q“_‚Æ’†S“_‚É‚æ‚éŽOŠpŒ`‚ð‚U‚Â•`‰æ‚·‚é)
 	//’†‚ð‰‚ß‚É•`‰æ‚µ‚È‚¢‚Æ•Ó‚ª’†‚Æ‚Íˆá‚Á‚½F‚ÉŒ©‚¦‚È‚­‚È‚é
-
 	if(alpha>0){
 		int originmode,originpal;
 		GetDrawBlendMode(&originmode,&originpal);
@@ -65,7 +76,7 @@ void Hexagon::Draw(unsigned int color,int alpha,unsigned int incolor)const{
 		for(int i=0;i<vs.vnum;i++){
 			DrawTriangle((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
 				,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
-				,(int)(m_center.x),(int)(m_center.y)
+				,(int)(pos.x),(int)(pos.y)
 				,color,TRUE);
 		}
 		SetDrawBlendMode(originmode,originpal);

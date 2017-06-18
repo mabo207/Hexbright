@@ -26,9 +26,9 @@ PutPos PutPos::BaseVec(Direction dir){
 	case(RIGHT):
 		return PutPos(1,0);
 	case(RIGHTDOWN):
-		return PutPos(0,1);
-	case(LEFTDOWN):
 		return PutPos(1,1);
+	case(LEFTDOWN):
+		return PutPos(0,1);
 	case(LEFT):
 		return -BaseVec(RIGHT);
 	case(LEFTUP):

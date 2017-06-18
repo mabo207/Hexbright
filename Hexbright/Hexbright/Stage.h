@@ -40,7 +40,8 @@ public:
 	Stage(size_t size);
 	~Stage();
 	void Draw(const Vector2D &center)const;//ステージの描画
-	void PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock);
+	bool PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock,Vector2D center);//ブロックを設置する、置けない場合はfalseを返す
+	std::shared_ptr<const Block> GetBlock(const PutPos &pos)const;//ブロック情報を取得する
 };
 
 
