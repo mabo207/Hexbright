@@ -45,24 +45,30 @@ Hexagon::Vertexs Hexagon::GetPoints()const{
 	);
 }
 
-void Hexagon::Draw(unsigned int color,int fillFlag)const{
-	Draw(color,fillFlag,color);
+void Hexagon::Draw(unsigned int color,int alpha)const{
+	Draw(color,alpha,color);
 }
 
-void Hexagon::Draw(unsigned int color,int fillFlag,unsigned int incolor)const{
+void Hexagon::Draw(unsigned int color,int alpha,unsigned int incolor)const{
 	//’¸“_6‚Â‚ð‹‚ß‚é
 	Vertexs vs=GetPoints();
 	//’†‚Ì•`‰æ(—×Ú‚·‚é‚Q“_‚Æ’†S“_‚É‚æ‚éŽOŠpŒ`‚ð‚U‚Â•`‰æ‚·‚é)
 	//’†‚ð‰‚ß‚É•`‰æ‚µ‚È‚¢‚Æ•Ó‚ª’†‚Æ‚Íˆá‚Á‚½F‚ÉŒ©‚¦‚È‚­‚È‚é
-	if(fillFlag==TRUE){
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA,128);
+
+	if(alpha>0){
+		int originmode,originpal;
+		GetDrawBlendMode(&originmode,&originpal);
+		if(originmode!=DX_BLENDMODE_ALPHA){
+			originpal=255;
+		}
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA,alpha*originpal/255);
 		for(int i=0;i<vs.vnum;i++){
 			DrawTriangle((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
 				,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
 				,(int)(m_center.x),(int)(m_center.y)
 				,color,TRUE);
 		}
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND,255);
+		SetDrawBlendMode(originmode,originpal);
 	}
 	//•Ó‚Ì•`‰æ
 	for(int i=0;i<vs.vnum;i++){

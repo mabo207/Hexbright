@@ -66,7 +66,7 @@ Block::~Block(){}
 
 void Block::Draw()const{
 	//³˜ZŠpŒ`‚Ì•`‰æ
-	m_shape.get()->Draw(GetColor(),TRUE);
+	m_shape.get()->Draw(GetColor(),128);
 	//“±ü‚Ì•`‰æ
 	Hexagon::Vertexs vs=m_shape.get()->GetPoints();
 	for(Conductor c:m_conductors){

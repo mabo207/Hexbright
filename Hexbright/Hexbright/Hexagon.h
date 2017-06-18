@@ -45,8 +45,8 @@ public:
 	}
 
 	//機能
-	void Draw(unsigned int color,int fillFlag)const;//描画(中と辺は同じ色系統、中は半透明)
-	void Draw(unsigned int color,int fillFlag,unsigned int incolor)const;//描画(中と辺は個別に色を指示、中は半透明)
+	void Draw(unsigned int color,int alpha)const;//描画(中と辺は同じ色系統、alphaは中の透明度)
+	void Draw(unsigned int color,int alpha,unsigned int incolor)const;//描画(中と辺は個別に色を指示、alphaは中の透明度)
 	Vertexs GetPoints()const;//頂点６つの座標を求める
 };
 
