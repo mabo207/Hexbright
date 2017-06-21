@@ -49,8 +49,10 @@ public:
 	~Block();
 
 	//普通の関数
-	void Draw()const;
-	void Draw(Vector2D pos)const;
+	void Draw()const;//ブロックを指定通りに描画
+	void Draw(Vector2D pos)const;//ブロックの位置を指定して描画(溜めているブロックの描画等)
+	void Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor)const;//辺と導線群を描画する(もしここに置いたらどうなるみたいなガイド)
+	void Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const;//描画処理の要素全てを引数に取れる
 	Conductor GetConductor(int n)const;//入口の番号からそのブロックが持っている導線を返す
 	Vector2D GetVertexPos(int n)const;//辺番号からその位置を返す
 	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)

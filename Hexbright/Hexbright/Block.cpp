@@ -5,7 +5,7 @@
 Block::Conductor::Conductor():n0(-1),n1(-1){}
 
 Block::Conductor::Conductor(int i_n0,int i_n1){
-	if(i_n0==i_n1 || i_n0<0 || i_n0>=6 || i_n1<0 || i_n1>=6){
+	if(i_n0==i_n1 || i_n0<0 || i_n0>=Hexagon::Vertexs::vnum || i_n1<0 || i_n1>=Hexagon::Vertexs::vnum){
 		//ì_Ç™àÍívÇµÇƒÇÈÇ©ÅAì¸óÕî‘çÜÇ™0à»è„5à»â∫Ç≈Ç»Ç©Ç¡ÇΩÇÁë∂ç›ÇµÇ»Ç¢ì±ê¸Ç…Ç∑ÇÈ
 		n0=-1,n1=-1;
 	}else{
@@ -17,8 +17,9 @@ Block::Conductor::Conductor(int i_n0,int i_n1){
 
 void Block::Conductor::turn(int n){
 	//î‘çÜÇÇ«ÇøÇÁÇ‡nÇ∏ÇÁÇ∑
-	this->n0+=n;
-	this->n1+=n;
+	//this=Conductor((n0+n)%Hexagon::Vertexs::vnum,(n1+n)%Hexagon::Vertexs::vnum);
+	n0=(n0+n)%Hexagon::Vertexs::vnum;
+	n1=(n1+n)%Hexagon::Vertexs::vnum;
 }
 
 bool Block::Conductor::JudgeCross(const Conductor &otherobj)const{
@@ -48,7 +49,7 @@ int Block::Conductor::GetOtherN(int n)const{
 }
 
 bool Block::Conductor::JudgeExist()const{
-	return !(n0<0 || n0>=6 || n1<0 || n1>=6);
+	return !(n0<0 || n0>=Hexagon::Vertexs::vnum || n1<0 || n1>=Hexagon::Vertexs::vnum);
 }
 
 //-------------------Block-------------------
@@ -77,14 +78,22 @@ void Block::Draw()const{
 }
 
 void Block::Draw(Vector2D pos)const{
+	Draw(pos,GetColor(),lineColor,128,lineThick);
+}
+
+void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor)const{
+	Draw(pos,vertexColor,conductorColor,30,lineThick);
+}
+
+void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{
 	//ê≥òZäpå`ÇÃï`âÊ
-	m_shape.get()->Draw(pos,GetColor(),128);
+	m_shape.get()->Draw(pos,vertexColor,alpha);
 	//ì±ê¸ÇÃï`âÊ
 	Hexagon::Vertexs vs=m_shape.get()->GetPoints(pos);
 	for(Conductor c:m_conductors){
 		Vector2D v0=(vs.GetPoint(c.GetN(0))+vs.GetPoint((c.GetN(0)+1)%Hexagon::Vertexs::vnum))/2
 			,v1=(vs.GetPoint(c.GetN(1))+vs.GetPoint((c.GetN(1)+1)%Hexagon::Vertexs::vnum))/2;
-		DrawLine((int)(v0.x),(int)(v0.y),(int)(v1.x),(int)(v1.y),lineColor,lineThick);
+		DrawLine((int)(v0.x),(int)(v0.y),(int)(v1.x),(int)(v1.y),conductorColor,conductorThick);
 	}
 }
 
@@ -103,8 +112,13 @@ Vector2D Block::GetVertexPos(int n)const{
 
 void Block::Turn(int n){
 	//ë∂ç›Ç∑ÇÈì±ê¸ÇâÒì]Ç≥ÇπÇÈ
+	/*
 	for(Conductor c:m_conductors){
 		c.turn(n);
+	}
+	//*/
+	for(std::vector<Conductor>::iterator it=m_conductors.begin(),ite=m_conductors.end();it!=ite;it++){
+		it->turn(n);
 	}
 }
 

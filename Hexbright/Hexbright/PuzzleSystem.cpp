@@ -202,7 +202,14 @@ void PuzzleSystem::Update(){
 			AddSavedBlock();
 		}
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
+		//起動
 		m_flowCircle.Boot(m_stage,m_cursor);
+	}else if(keyboard_get(KEY_INPUT_R)==1){
+		//時計回り回転
+		m_savedBlock[0].get()->Turn(1);
+	}else if(keyboard_get(KEY_INPUT_Q)==1){
+		//反時計回り回転
+		m_savedBlock[0].get()->Turn(5);//-1を入れると%の仕様で0->5とならず0->3となる。
 	}
 	
 }
@@ -212,6 +219,8 @@ void PuzzleSystem::Draw()const{
 
 	//盤面の描画
 	m_stage.Draw(m_center);
+	//カーソルの描画(先頭のブロックを白く表示)
+	m_savedBlock[0].get()->Draw(m_center+m_cursor.relativecoordinates(Block::BaseVector),GetColor(255,255,255),GetColor(255,255,255));
 	//丸の描画
 	m_flowCircle.Draw(m_center);
 	//溜まっているブロック群の描画
