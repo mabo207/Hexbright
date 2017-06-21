@@ -37,7 +37,7 @@ void PuzzleSystem::FlowCircle::Update(const Stage &stage,const PutPos &cursor,co
 		drawPos=drawPos+(destination-drawPos).norm()*speed;
 		//目的地到達の判定
 		//目的地と現在位置の距離がspeedの半分以下なら到達とする
-		if((destination-drawPos).size()<speed){
+		if((destination-drawPos).size()<speed/2){
 			//現在いるブロックを変更
 			switch(endVertex){
 			case(0)://右上の辺に進んだ
@@ -59,25 +59,24 @@ void PuzzleSystem::FlowCircle::Update(const Stage &stage,const PutPos &cursor,co
 				blockPos=blockPos+PutPos::BaseVec(PutPos::LEFTUP);
 				break;
 			}
-			//次の目的地を設定
+			//次の目的地を設定するかの判定
 			std::shared_ptr<const Block> pb=stage.GetBlock(blockPos);
 			flowflag=false;//一旦導線巡りを終了させたことにし、継続可能ならtrueに戻す
-			if(pb.get()!=nullptr){
-				//次に進むブロックが存在していて……
-				beginVertex=(endVertex+Hexagon::Vertexs::vnum/2)%Hexagon::Vertexs::vnum;//もといた六角形の辺から半周進めると今いる六角形の辺を表すようになる
-				if(pb.get()->GetConductor(beginVertex).JudgeExist()){
-					//対応する辺も存在するならば
-					flowflag=true;//導線巡り継続
-					endVertex=pb.get()->GetConductor(beginVertex).GetOtherN(beginVertex);
-					if(startDir==endVertex && startBlock==blockPos){
-						//導線巡り開始時の目的辺が行き先であれば、行き先を開始場所に。
-						destination=startPos;
-					} else{
-						//そうでないなら、行き先を辺に。
-						destination=pb.get()->GetVertexPos(endVertex);
+			if((destination-startPos).size()>0){
+				//現在の目的地がスタート地点に一致していないなら
+				if(pb.get()!=nullptr){
+					//次に進むブロックが存在していて……
+					beginVertex=(endVertex+Hexagon::Vertexs::vnum/2)%Hexagon::Vertexs::vnum;//もといた六角形の辺から半周進めると今いる六角形の辺を表すようになる
+					if(pb.get()->GetConductor(beginVertex).JudgeExist()){
+						//対応する辺も存在するならば
+						flowflag=true;//導線巡り継続
 					}
 				}
+			}else{
+				//一致している時は導線巡りは必ず終了させる
+				flowflag=false;
 			}
+			//次の目的地の設定
 			if(!flowflag){
 				//導線巡りの終了を記録
 				flowend=true;
@@ -85,6 +84,15 @@ void PuzzleSystem::FlowCircle::Update(const Stage &stage,const PutPos &cursor,co
 				blockPos=cursor;
 				//Bootで設定される変数は戻さない
 
+			}else{
+				endVertex=pb.get()->GetConductor(beginVertex).GetOtherN(beginVertex);
+				if(startDir==endVertex && startBlock==blockPos){
+					//導線巡り開始時の目的辺が行き先であれば、行き先を開始場所に。
+					destination=startPos;
+				} else{
+					//そうでないなら、行き先を辺に。
+					destination=pb.get()->GetVertexPos(endVertex);
+				}
 			}
 		}
 	}else{
