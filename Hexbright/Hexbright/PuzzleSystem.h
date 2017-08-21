@@ -31,6 +31,7 @@ protected:
 		FlowCircle(PutPos i_blockPos,Vector2D i_drawPos);
 		~FlowCircle();
 		void Draw(Vector2D center)const;
+		void Update(PuzzleSystem *system);//変数の更新
 		void Update(const Stage &stage,const PutPos &cursor,const Vector2D &center);//変数の更新
 		bool FlowEnd()const;//導線辿りの終了した時のみtrueを返す
 		bool Boot(const Stage &stage,const PutPos &cursor);//導線巡りを開始させる(失敗時はfalseを返す)
@@ -55,6 +56,23 @@ public:
 	PuzzleSystem();
 	~PuzzleSystem();
 
+	/*//ポインタを返す
+	Stage *GetStage(){
+		return &m_stage;
+	}
+	PutPos *GetCursor(){
+		return &m_cursor;
+	}
+	Vector2D *GetVector2D(){
+		return &m_center;
+	}
+	FlowCircle *GetFlowCircle(){
+		return &m_flowCircle;
+	}
+	std::vector<std::shared_ptr<Block>> *GetSavedBlock(){
+		return &m_savedBlock;
+	}
+	//*/
 	void Update();//毎フレーム呼び出して更新する
 	void Draw()const;
 };

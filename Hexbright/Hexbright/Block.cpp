@@ -112,14 +112,10 @@ Vector2D Block::GetVertexPos(int n)const{
 
 void Block::Turn(int n){
 	//‘¶İ‚·‚é“±ü‚ğ‰ñ“]‚³‚¹‚é
-	/*
-	for(Conductor c:m_conductors){
+	for(Conductor &c:m_conductors){
 		c.turn(n);
 	}
-	//*/
-	for(std::vector<Conductor>::iterator it=m_conductors.begin(),ite=m_conductors.end();it!=ite;it++){
-		it->turn(n);
-	}
+	
 }
 
 

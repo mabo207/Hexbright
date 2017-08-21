@@ -32,7 +32,7 @@ void PuzzleSystem::FlowCircle::Update(const Stage &stage,const PutPos &cursor,co
 		//導線巡りが始まっている場合
 		flowend=false;//常にfalseにする。更新時に特別なことがあればその時のみtrueとなるようにする
 		//速度調整
-
+		
 		//位置変更
 		drawPos=drawPos+(destination-drawPos).norm()*speed;
 		//目的地到達の判定
@@ -117,6 +117,7 @@ bool PuzzleSystem::FlowCircle::Boot(const Stage &stage,const PutPos &cursor){
 		startDir=endVertex;
 		drawPos=pb.get()->GetVertexPos(beginVertex);
 		startPos=drawPos;
+		blockPos=cursor;
 		destination=pb.get()->GetVertexPos(endVertex);
 		startBlock=cursor;
 
