@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="FlowCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="input.cpp" />
@@ -132,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Flowcircle.h" />
     <ClInclude Include="GraphicControl.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="input.h" />
