@@ -25,12 +25,12 @@ void FlowCircle::Draw(Vector2D center)const{
 }
 
 void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &center){
+	flowend=false;//常にfalseにする。更新時に特別なことがあればその時のみtrueとなるようにする
 	if(flowflag){
 		//導線巡りが始まっている場合
-		flowend=false;//常にfalseにする。更新時に特別なことがあればその時のみtrueとなるようにする
-					  //速度調整
+		//速度調整
 
-					  //位置変更
+		//位置変更
 		drawPos=drawPos+(destination-drawPos).norm()*speed;
 		//目的地到達の判定
 		//目的地と現在位置の距離がspeedの半分以下なら到達とする
@@ -67,9 +67,10 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 					if(pb.get()->GetConductor(beginVertex).JudgeExist()){
 						//対応する辺も存在するならば
 						flowflag=true;//導線巡り継続
+						blockPosVec.push_back(blockPos);//経由したブロックの位置情報を追加
 					}
 				}
-			} else{
+			}else{
 				//一致している時は導線巡りは必ず終了させる
 				flowflag=false;
 			}
@@ -79,9 +80,9 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 				flowend=true;
 				//位置を元に戻す
 				blockPos=cursor;
-				//Bootで設定される変数は戻さない
+				//Bootで設定される変数は戻さなくてよい
 
-			} else{
+			}else{
 				endVertex=pb.get()->GetConductor(beginVertex).GetOtherN(beginVertex);
 				if(startDir==endVertex && startBlock==blockPos){
 					//導線巡り開始時の目的辺が行き先であれば、行き先を開始場所に。
@@ -92,7 +93,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 				}
 			}
 		}
-	} else{
+	}else{
 		//導線を巡っていない場合
 		blockPos=cursor;
 		drawPos=cursor.relativecoordinates(Block::BaseVector)+center;
@@ -108,15 +109,27 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor){
 	std::shared_ptr<const Block> pb=stage.GetBlock(cursor);
 	if(pb.get()!=nullptr && pb.get()->GetConductors().size()>0){
 		//発火場所を決定(テキトー)
+		//本来は発火する六角形辺が入力されるのでそれを含む導線を求める
 		Block::Conductor c=pb.get()->GetConductors()[0];
+		//１つ目の六角形の経由の際にどの辺からどの辺に向かうかを求める
+		//本来は発火辺をbeginVertexとし、導線情報から、導線の両端のうち発火辺でない辺をendVertexとする
 		beginVertex=c.GetN(0);
 		endVertex=c.GetN(1);
+		//１周したかの判定をするために、発火点がどこにあり、そのの経由の際にどの方向に向かったかを記録する。
+		//なお、同じ六角形を２度以上通る回路の存在を認める必要があるのでstartBlockだけではだめ。
 		startDir=endVertex;
-		drawPos=pb.get()->GetVertexPos(beginVertex);
 		startPos=drawPos;
-		blockPos=cursor;
-		destination=pb.get()->GetVertexPos(endVertex);
+		//計算量を落とすために、予め発火点した六角形の位置を求める
 		startBlock=cursor;
+		//発火したので経由したブロックの位置群情報は１つめのブロックがあるだけにしておく
+		blockPosVec.clear();
+		blockPosVec.push_back(cursor);
+		//現在の小さい丸の描画位置を求める
+		drawPos=pb.get()->GetVertexPos(beginVertex);
+		//現在の小さい丸がどの六角形を通っているかを求める
+		blockPos=cursor;
+		//現在の小さい丸が向かう絶対座標を求める
+		destination=pb.get()->GetVertexPos(endVertex);
 
 		//発火開始
 		flowflag=true;

@@ -4,6 +4,7 @@
 #include"Block.h"
 #include"PutPos.h"
 #include"Stage.h"
+#include<vector>
 
 //ブロックの導線を辿る小さい丸
 class FlowCircle{
@@ -23,6 +24,7 @@ public:
 	Vector2D drawPos;//どの描画位置にいるか(絶対位置)
 	int beginVertex,endVertex;//どの辺からどの辺に向かっているか
 	bool flowflag;//現在導線を辿るモードになっているかどうか
+	std::vector<PutPos> blockPosVec;//経由したブロックの位置群(先頭に近いほど初めに通ったブロックになる)
 
 	 //関数
 public:

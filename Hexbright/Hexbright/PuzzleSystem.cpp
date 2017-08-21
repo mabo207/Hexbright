@@ -67,6 +67,15 @@ void PuzzleSystem::Update(){
 	}
 	//丸の更新
 	m_flowCircle.Update(m_stage,m_cursor,m_center);
+	if(m_flowCircle.FlowEnd()){
+		//ちょうど導線巡りが終了したら
+		//得点加算処理
+
+		//妨害送信処理
+
+		//ブロック消去処理
+		m_stage.EraseBlocks(m_flowCircle.blockPosVec);
+	}
 	//入力受付
 	if(keyboard_get(KEY_INPUT_NUMPADENTER)==1){
 		//ブロックを置く

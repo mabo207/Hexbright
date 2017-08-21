@@ -54,4 +54,12 @@ std::shared_ptr<const Block> Stage::GetBlock(const PutPos &pos)const{
 	return std::shared_ptr<const Block>(nullptr);
 }
 
-
+void Stage::EraseBlocks(const std::vector<PutPos> &blockPosVec){
+	//事前にblockPosVecをソートすれば高速化できそうな気がするし、m_blocks.erase()にBlockInfoのvectorを入れても同じ機能で効率が良い気もしなくはないけど、バグを防ぐために必要になるまで高速化はしないでおく。
+	for(const PutPos &p:blockPosVec){
+		std::set<BlockInfo>::iterator it=m_blocks.find(BlockInfo(p,std::shared_ptr<Block>(nullptr)));
+		if(it!=m_blocks.end()){
+			m_blocks.erase(it);
+		}
+	}
+}

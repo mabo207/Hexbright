@@ -42,6 +42,7 @@ public:
 	void Draw(const Vector2D &center)const;//ステージの描画
 	bool PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock,Vector2D center);//ブロックを設置する、置けない場合はfalseを返す
 	std::shared_ptr<const Block> GetBlock(const PutPos &pos)const;//ブロック情報を取得する
+	void EraseBlocks(const std::vector<PutPos> &blockPosVec);//blockPosVecに存在するブロックを全て消去する
 };
 
 
