@@ -197,20 +197,21 @@ int DrawStringCenterBaseToHandle(const int centerx,const int centery,const char 
 	}
 }
 
-//位置を色々な式で管理するクラス
-//---PositionControl---
-void PositionControl::SetTarget(int i_endx,int i_endy,bool initflame){
+//数値変化を様々な式で管理するクラス
+//---Easing---
+Easing::Easing(int i_x,int i_maxflame,TYPE i_type,FUNCTION i_function,double i_degree)
+	:flame(0),maxflame(i_maxflame),x(i_x),startx(i_x),endx(i_x),type(i_type),function(i_function),degree(i_degree){}
+
+void Easing::SetTarget(int i_endx,bool initflame){
 	startx=x;
-	starty=y;
 	if(initflame){
 		//initflameがtrueの時のみflameを0に
 		flame=0;
 	}
 	endx=i_endx;
-	endy=i_endy;
 }
 
-void PositionControl::Update(){
+void Easing::Update(){
 	double ft;//増加割合
 	if(!GetEndFlag()){
 		if(maxflame>0){
@@ -236,63 +237,76 @@ void PositionControl::Update(){
 			ft=1.0;
 		}
 		x=startx+(int)((endx-startx)*ft);
-		y=starty+(int)((endy-starty)*ft);
 		flame++;
 	} else{
 		x=endx;
-		y=endy;
 	}
 }
 
-void PositionControl::EnforceEnd(){
+void Easing::EnforceEnd(){
 	flame=maxflame;
 	Update();
 }
 
-void PositionControl::Retry(){
+void Easing::Retry(){
 	x=startx;
-	y=starty;
 	flame=0;
 }
 
-void PositionControl::Retry(int i_startx,int i_starty){
+void Easing::Retry(int i_startx){
 	startx=i_startx;
-	starty=i_starty;
 	Retry();
 }
 
-void PositionControl::SetMaxFlame(int flame,bool targetinitflag){
+void Easing::SetMaxFlame(int flame,bool targetinitflag){
 	maxflame=flame;
 	if(targetinitflag){
-		Retry(x,y);
-	} else{
+		Retry(x);
+	}else{
 		flame=min(flame,maxflame);
 	}
 }
 
-bool PositionControl::GetEndFlag()const{
+bool Easing::GetEndFlag()const{
 	return (flame>=maxflame);
 }
 
-//---PositionControlSpeeding---
-PositionControlSpeeding::PositionControlSpeeding(int i_x,int i_y,int i_maxflame,TYPE i_type,FUNCTION i_function,double i_degree)
-	:PositionControl(i_x,i_y,i_maxflame,i_type,i_function,i_degree){}
 
-void PositionControlSpeeding::Update(){
-	if(!GetEndFlag()){
-
-	} else{
-		x=endx;
-		y=endy;
-	}
+//位置を色々な式で管理するクラス
+//---PositionControl---
+void PositionControl::SetTarget(int i_endx,int i_endy,bool initflame){
+	x.SetTarget(i_endx,initflame);
+	y.SetTarget(i_endy,initflame);
 }
 
-int PositionControlSpeeding::GetMaxFlame()const{
-	return 0;
+void PositionControl::Update(){
+	x.Update();
+	y.Update();
 }
 
-bool PositionControlSpeeding::GetEndFlag()const{
-	return (x==endx && y==endy);
+void PositionControl::EnforceEnd(){
+	x.EnforceEnd();
+	y.EnforceEnd();
+}
+
+void PositionControl::Retry(){
+	x.Retry();
+	y.Retry();
+}
+
+void PositionControl::Retry(int i_startx,int i_starty){
+	x.Retry(i_startx);
+	y.Retry(i_starty);
+}
+
+void PositionControl::SetMaxFlame(int flame,bool targetinitflag){
+	x.SetMaxFlame(flame,targetinitflag);
+	y.SetMaxFlame(flame,targetinitflag);
+}
+
+bool PositionControl::GetEndFlag()const{
+	//xもyも同じフレーム管理なので、yのGetEndFlagもxのGetEndFlagも同じ
+	return x.GetEndFlag();
 }
 
 //大きさ調整しつつ並べて表示する位置を計算するクラス
