@@ -5,8 +5,10 @@
 #include"NormalBlock.h"
 
 //-----------------------PuzzleSystem-----------------------
+const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(800,600);
+
 PuzzleSystem::PuzzleSystem()
-	:m_stage(5),m_cursor(0,0),m_center(400,300),m_flowCircle(PutPos(0,0),Vector2D(400,300))
+	:m_stage(5),m_cursor(0,0),m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center),m_score()
 {
 	//初期化
 	for(int i=0;i<5;i++){
@@ -67,10 +69,11 @@ void PuzzleSystem::Update(){
 	}
 	//丸の更新
 	m_flowCircle.Update(m_stage,m_cursor,m_center);
+	m_score.Update();
 	if(m_flowCircle.FlowEnd()){
 		//ちょうど導線巡りが終了したら
 		//得点加算処理
-
+		m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
 		//妨害送信処理
 
 		//ブロック消去処理
@@ -110,7 +113,8 @@ void PuzzleSystem::Draw()const{
 	m_flowCircle.Draw(m_center);
 	//溜まっているブロック群の描画
 	for(size_t i=0;i<m_savedBlock.size();i++){
-		m_savedBlock[i].get()->Draw(Vector2D(750,(float)(100*i+150)));
+		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-50,(float)(aPuzzleSize.y*(i/6.0+1/4.0))));
 	}
-
+	//得点の描画
+	m_score.Draw(m_center);
 }

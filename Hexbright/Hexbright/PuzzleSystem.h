@@ -5,6 +5,7 @@
 #include"Stage.h"
 #include"PutPos.h"
 #include"Flowcircle.h"
+#include"ScoreSystem.h"
 
 //一人分のパズルシステムを表現する
 class PuzzleSystem{
@@ -14,12 +15,16 @@ protected:
 	//定数
 protected:
 
+public:
+	static const Vector2D aPuzzleSize;//１人分の画面の大きさ
+
 	//変数
 protected:
 	Stage m_stage;//現在の盤面
 	PutPos m_cursor;//カーソル
 	Vector2D m_center;//中央のマスの描画位置
 	FlowCircle m_flowCircle;//導線を辿る小さな丸
+	ScoreSystem m_score;//スコア
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
 
 	//関数

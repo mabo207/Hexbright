@@ -72,6 +72,9 @@
     <ClCompile Include="FlowCircle.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreSystem.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicControl.h">
@@ -102,6 +105,9 @@
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Flowcircle.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSystem.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
