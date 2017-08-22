@@ -118,7 +118,8 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor){
 		//１周したかの判定をするために、発火点がどこにあり、そのの経由の際にどの方向に向かったかを記録する。
 		//なお、同じ六角形を２度以上通る回路の存在を認める必要があるのでstartBlockだけではだめ。
 		startDir=endVertex;
-		startPos=drawPos;
+		//startPos=drawPos;
+		startPos=pb->GetVertexPos(beginVertex);
 		//計算量を落とすために、予め発火点した六角形の位置を求める
 		startBlock=cursor;
 		//発火したので経由したブロックの位置群情報は１つめのブロックがあるだけにしておく
