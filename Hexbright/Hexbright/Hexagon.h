@@ -55,6 +55,9 @@ public:
 		//pos‚É’†S“_‚ğˆÚ‚·
 		m_center=pos;
 	}
+
+	//Ã“IŠÖ”
+	static Vertexs GetPoints(Vector2D center,Vector2D baseVec);
 };
 
 

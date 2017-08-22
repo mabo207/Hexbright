@@ -107,7 +107,8 @@ Block::Conductor Block::GetConductor(int n)const{
 }
 
 Vector2D Block::GetVertexPos(int n)const{
-	return (m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum)%Hexagon::Vertexs::vnum)+m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum+1)%Hexagon::Vertexs::vnum))/2;
+	//return (m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum)%Hexagon::Vertexs::vnum)+m_shape.get()->GetPoints().GetPoint((n+Hexagon::Vertexs::vnum+1)%Hexagon::Vertexs::vnum))/2;
+	return GetVertexPos(n,m_shape->GetCenter());
 }
 
 void Block::Turn(int n){
@@ -118,4 +119,6 @@ void Block::Turn(int n){
 	
 }
 
-
+Vector2D Block::GetVertexPos(int n,Vector2D center){
+	return (Hexagon::GetPoints(center,BaseVector).GetPoint((n+Hexagon::Vertexs::vnum)%Hexagon::Vertexs::vnum)+Hexagon::GetPoints(center,BaseVector).GetPoint((n+Hexagon::Vertexs::vnum+1)%Hexagon::Vertexs::vnum))/2;
+}

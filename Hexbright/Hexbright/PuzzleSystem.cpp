@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"PuzzleSystem.h"
 #include"input.h"
+#include<set>
 
 #include"NormalBlock.h"
 
@@ -8,7 +9,7 @@
 const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(800,600);
 
 PuzzleSystem::PuzzleSystem()
-	:m_stage(5),m_cursor(0,0),m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center),m_score()
+	:m_stage(5),m_cursor(0,0),m_bootVertex(0),m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center),m_score()
 {
 	//初期化
 	for(int i=0;i<5;i++){
@@ -53,6 +54,18 @@ void PuzzleSystem::AddSavedBlock(){
 }
 
 void PuzzleSystem::Update(){
+	//丸の更新
+	m_flowCircle.Update(m_stage,m_cursor,m_center);
+	m_score.Update();
+	if(m_flowCircle.FlowEnd()){
+		//ちょうど導線巡りが終了したら
+		//得点加算処理
+		m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
+		//妨害送信処理
+
+		//ブロック消去処理
+		m_stage.EraseBlocks(m_flowCircle.blockPosVec);
+	}
 	//カーソルの更新
 	if(keyboard_get(KEY_INPUT_D)==1){
 		m_cursor=m_cursor+PutPos::BaseVec(PutPos::RIGHT);
@@ -67,19 +80,15 @@ void PuzzleSystem::Update(){
 	}else if(keyboard_get(KEY_INPUT_E)==1){
 		m_cursor=m_cursor+PutPos::BaseVec(PutPos::RIGHTUP);
 	}
-	//丸の更新
-	m_flowCircle.Update(m_stage,m_cursor,m_center);
-	m_score.Update();
-	if(m_flowCircle.FlowEnd()){
-		//ちょうど導線巡りが終了したら
-		//得点加算処理
-		m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
-		//妨害送信処理
-
-		//ブロック消去処理
-		m_stage.EraseBlocks(m_flowCircle.blockPosVec);
+	//ブロック回転入力受付
+	if(keyboard_get(KEY_INPUT_R)==1){
+		//時計回り回転
+		m_savedBlock[0].get()->Turn(1);
+	} else if(keyboard_get(KEY_INPUT_Q)==1){
+		//反時計回り回転
+		m_savedBlock[0].get()->Turn(Hexagon::Vertexs::vnum-1);//-1を入れると%の仕様で0->5とならず0->3となる。
 	}
-	//入力受付
+	//マップ変更入力受付
 	if(keyboard_get(KEY_INPUT_NUMPADENTER)==1){
 		//ブロックを置く
 		if(m_stage.PutBlock(m_cursor,m_savedBlock[0],m_center)){
@@ -92,14 +101,50 @@ void PuzzleSystem::Update(){
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		//起動
 		m_flowCircle.Boot(m_stage,m_cursor);
-	}else if(keyboard_get(KEY_INPUT_R)==1){
-		//時計回り回転
-		m_savedBlock[0].get()->Turn(1);
-	}else if(keyboard_get(KEY_INPUT_Q)==1){
-		//反時計回り回転
-		m_savedBlock[0].get()->Turn(5);//-1を入れると%の仕様で0->5とならず0->3となる。
 	}
-	
+	//発火点変更入力受付
+	if(keyboard_get(KEY_INPUT_1)%10==1){
+		//反時計回り回転
+		std::shared_ptr<const Block> pb=m_stage.GetBlock(m_cursor);
+		if(pb.get()!=nullptr && !pb->GetConductors().empty()){
+			//ブロックがあり、導線が存在する場合
+			std::vector<Block::Conductor> cVec=pb->GetConductors();
+			std::set<int> set;
+			for(Block::Conductor c:cVec){
+				set.insert(c.GetN(0));
+				set.insert(c.GetN(1));
+			}
+			std::set<int>::const_iterator it=set.lower_bound(m_bootVertex);
+			if(it==set.begin()){
+				it=set.end();
+			}
+			it--;
+			m_bootVertex=*it;
+		}else{
+			//ブロックがない場合
+			m_bootVertex=(m_bootVertex+Hexagon::Vertexs::vnum-1)%Hexagon::Vertexs::vnum;
+		}
+	}else if(keyboard_get(KEY_INPUT_4)%10==1){
+		//時計回り回転
+		std::shared_ptr<const Block> pb=m_stage.GetBlock(m_cursor);
+		if(pb.get()!=nullptr && !pb->GetConductors().empty()){
+			//ブロックがあり、導線が存在する場合
+			std::vector<Block::Conductor> cVec=pb->GetConductors();
+			std::set<int> set;
+			for(Block::Conductor c:cVec){
+				set.insert(c.GetN(0));
+				set.insert(c.GetN(1));
+			}
+			std::set<int>::const_iterator it=set.upper_bound(m_bootVertex);
+			if(it==set.end()){
+				it=set.begin();
+			}
+			m_bootVertex=*it;
+		}else{
+			//ブロックがない場合
+			m_bootVertex=(m_bootVertex+1)%Hexagon::Vertexs::vnum;
+		}
+	}
 }
 
 void PuzzleSystem::Draw()const{
@@ -108,7 +153,11 @@ void PuzzleSystem::Draw()const{
 	//盤面の描画
 	m_stage.Draw(m_center);
 	//カーソルの描画(先頭のブロックを白く表示)
-	m_savedBlock[0].get()->Draw(m_center+m_cursor.relativecoordinates(Block::BaseVector),GetColor(255,255,255),GetColor(255,255,255));
+	Vector2D v=m_center+m_cursor.relativecoordinates(Block::BaseVector);//カーソル描画と発火点描画で用いる
+	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255));
+	//発火点の描画
+	v=Block::GetVertexPos(m_bootVertex,v);
+	DrawCircle((int)v.x,(int)v.y,3,GetColor(128,128,255),TRUE);
 	//丸の描画
 	m_flowCircle.Draw(m_center);
 	//溜まっているブロック群の描画

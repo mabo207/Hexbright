@@ -22,6 +22,7 @@ public:
 protected:
 	Stage m_stage;//現在の盤面
 	PutPos m_cursor;//カーソル
+	int m_bootVertex;//発火点となる辺
 	Vector2D m_center;//中央のマスの描画位置
 	FlowCircle m_flowCircle;//導線を辿る小さな丸
 	ScoreSystem m_score;//スコア

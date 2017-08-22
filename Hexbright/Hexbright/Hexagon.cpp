@@ -39,6 +39,7 @@ Hexagon::Vertexs Hexagon::GetPoints()const{
 }
 
 Hexagon::Vertexs Hexagon::GetPoints(Vector2D pos)const{
+	/*
 	return Vertexs(
 		Vector2D(pos+m_baseVector.turn(M_PI*0/3)),
 		Vector2D(pos+m_baseVector.turn(M_PI*1/3)),
@@ -47,6 +48,8 @@ Hexagon::Vertexs Hexagon::GetPoints(Vector2D pos)const{
 		Vector2D(pos+m_baseVector.turn(M_PI*4/3)),
 		Vector2D(pos+m_baseVector.turn(M_PI*5/3))
 	);
+	//*/
+	return GetPoints(pos,m_baseVector);
 }
 
 void Hexagon::Draw(unsigned int color,int alpha)const{
@@ -88,4 +91,15 @@ void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha,unsigned int incolo
 			,color);
 	}
 
+}
+
+Hexagon::Vertexs Hexagon::GetPoints(Vector2D center,Vector2D baseVec){
+	return Vertexs(
+		Vector2D(center+baseVec.turn(M_PI*0/3)),
+		Vector2D(center+baseVec.turn(M_PI*1/3)),
+		Vector2D(center+baseVec.turn(M_PI*2/3)),
+		Vector2D(center+baseVec.turn(M_PI*3/3)),
+		Vector2D(center+baseVec.turn(M_PI*4/3)),
+		Vector2D(center+baseVec.turn(M_PI*5/3))
+	);
 }

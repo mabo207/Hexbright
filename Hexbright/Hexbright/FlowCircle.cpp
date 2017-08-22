@@ -13,15 +13,17 @@ FlowCircle::FlowCircle(PutPos i_blockPos,Vector2D i_drawPos)
 FlowCircle::~FlowCircle(){}
 
 void FlowCircle::Draw(Vector2D center)const{
-	int mode,pal;
-	GetDrawBlendMode(&mode,&pal);
-	//小さい丸は加算ブレンドを用いて光って表現させる
-	SetDrawBlendMode(DX_BLENDMODE_ADD,255);
-	for(int i=-2;i<=2;i++){
-		Vector2D v=drawPos+(destination-drawPos).norm()*speed*(float)i;
-		DrawCircle((int)(v.x),(int)(v.y),2,GetColor(100,100,120),TRUE);
+	if(flowflag){
+		int mode,pal;
+		GetDrawBlendMode(&mode,&pal);
+		//小さい丸は加算ブレンドを用いて光って表現させる
+		SetDrawBlendMode(DX_BLENDMODE_ADD,255);
+		for(int i=-2;i<=2;i++){
+			Vector2D v=drawPos+(destination-drawPos).norm()*speed*(float)i;
+			DrawCircle((int)(v.x),(int)(v.y),2,GetColor(100,100,120),TRUE);
+		}
+		SetDrawBlendMode(mode,pal);
 	}
-	SetDrawBlendMode(mode,pal);
 }
 
 void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &center){

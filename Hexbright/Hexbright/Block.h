@@ -63,6 +63,9 @@ public:
 	std::vector<Conductor> GetConductors()const{
 		return m_conductors;
 	}
+
+	//静的関数
+	static Vector2D GetVertexPos(int n,Vector2D center);//ブロックの中心位置さえ分かれば、HexagonのbaseVecはBaseVectorで固定なので求められる
 };
 
 #endif // !DEF_BLOCK_H
