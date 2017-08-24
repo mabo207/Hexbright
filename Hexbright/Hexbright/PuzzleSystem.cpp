@@ -173,7 +173,7 @@ void PuzzleSystem::Update(){
 		}
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		//起動
-		m_flowCircle.Boot(m_stage,m_cursor);
+		m_flowCircle.Boot(m_stage,m_cursor,m_bootVertex);
 	}
 	//発火点変更入力受付
 	if(keyboard_get(KEY_INPUT_1)%10==1){

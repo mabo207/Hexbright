@@ -34,7 +34,7 @@ public:
 	//void Update(PuzzleSystem *system);//変数の更新
 	void Update(const Stage &stage,const PutPos &cursor,const Vector2D &center);//変数の更新
 	bool FlowEnd()const;//導線辿りの終了した時のみtrueを返す
-	bool Boot(const Stage &stage,const PutPos &cursor);//導線巡りを開始させる(失敗時はfalseを返す)
+	bool Boot(const Stage &stage,const PutPos &cursor,const int bootVertex);//導線巡りを開始させる(失敗時はfalseを返す)
 };
 
 #endif // !DEF_FLOWCIRCLE_H

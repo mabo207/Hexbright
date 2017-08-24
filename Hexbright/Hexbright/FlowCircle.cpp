@@ -106,17 +106,17 @@ bool FlowCircle::FlowEnd()const{
 	return flowend;
 }
 
-bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor){
+bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVertex){
 	//その場所にブロックがあり、ブロックに導線が存在するか調べる
 	std::shared_ptr<const Block> pb=stage.GetBlock(cursor);
-	if(pb.get()!=nullptr && pb.get()->GetConductors().size()>0){
+	if(pb.get()!=nullptr && pb.get()->GetConductor(bootVertex).JudgeExist()){
 		//発火場所を決定(テキトー)
 		//本来は発火する六角形辺が入力されるのでそれを含む導線を求める
-		Block::Conductor c=pb.get()->GetConductors()[0];
+		Block::Conductor c=pb.get()->GetConductor(bootVertex);
 		//１つ目の六角形の経由の際にどの辺からどの辺に向かうかを求める
 		//本来は発火辺をbeginVertexとし、導線情報から、導線の両端のうち発火辺でない辺をendVertexとする
-		beginVertex=c.GetN(0);
-		endVertex=c.GetN(1);
+		beginVertex=bootVertex;
+		endVertex=c.GetOtherN(bootVertex);
 		//１周したかの判定をするために、発火点がどこにあり、そのの経由の際にどの方向に向かったかを記録する。
 		//なお、同じ六角形を２度以上通る回路の存在を認める必要があるのでstartBlockだけではだめ。
 		startDir=endVertex;
