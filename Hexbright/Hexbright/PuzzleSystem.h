@@ -31,6 +31,7 @@ protected:
 	//関数
 protected:
 	void AddSavedBlock();//ブロックを一つ貯める
+	void TurnBootVertex(int n);//n回だけ時計回りに発火点を回転させる。n=0でも、現在の位置に発火辺がなければn=1と同じ挙動をする（時計回り方向で一番近い発火辺に移動する）
 	
 public:
 	PuzzleSystem();
