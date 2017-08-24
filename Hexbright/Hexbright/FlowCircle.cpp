@@ -5,9 +5,11 @@
 FlowCircle::FlowCircle(PutPos i_blockPos,Vector2D i_drawPos)
 	:blockPos(i_blockPos),drawPos(i_drawPos)
 	,beginVertex(-1),endVertex(-1),flowflag(false)
-	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),speed(4.0),destination(0,0)
+	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),baseAccele(1.05),baseSpeed(4.0),destination(0,0)
 {
 	//ゲーム開始時にのみ呼ばれるのでこれで良い
+	speed=baseSpeed;
+	accele=baseAccele;
 }
 
 FlowCircle::~FlowCircle(){}
@@ -19,7 +21,8 @@ void FlowCircle::Draw(Vector2D center)const{
 		//小さい丸は加算ブレンドを用いて光って表現させる
 		SetDrawBlendMode(DX_BLENDMODE_ADD,255);
 		for(int i=-2;i<=2;i++){
-			Vector2D v=drawPos+(destination-drawPos).norm()*speed*(float)i;
+			int r=2;//円の半径
+			Vector2D v=drawPos+(destination-drawPos).norm()*(float)r*2*(float)i;
 			DrawCircle((int)(v.x),(int)(v.y),2,GetColor(100,100,120),TRUE);
 		}
 		SetDrawBlendMode(mode,pal);
@@ -70,6 +73,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 						//対応する辺も存在するならば
 						flowflag=true;//導線巡り継続
 						blockPosVec.push_back(blockPos);//経由したブロックの位置情報を追加
+						speed*=accele;
 					}
 				}
 			}else{
@@ -133,6 +137,8 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVert
 		blockPos=cursor;
 		//現在の小さい丸が向かう絶対座標を求める
 		destination=pb.get()->GetVertexPos(endVertex);
+		//小さい丸の速さを元に戻す
+		speed=baseSpeed;
 
 		//発火開始
 		flowflag=true;

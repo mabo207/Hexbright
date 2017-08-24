@@ -8,6 +8,10 @@
 
 //ブロックの導線を辿る小さい丸
 class FlowCircle{
+	//定数
+protected:
+	const float baseSpeed;//スピードの基本値
+	const float baseAccele;//加速倍率の基本値
 
 	//変数
 protected:
@@ -16,6 +20,7 @@ protected:
 	PutPos startBlock;//導線辿りが始まった時のブロックの位置(上二つの情報が被ったらstartPosに近づいているか判定すればよい(計算量削減))
 	bool flowend;//FlowEnd()が返す値
 	float speed;//速さ
+	float accele;//加速倍率
 	Vector2D destination;//移動先の描画座標(絶対位置)
 
 	 //システム用変数

@@ -48,6 +48,8 @@ public:
 		}
 		return Vector2D(0.0,0.0);
 	}
+	//角度を返す(単位はラジアン)
+	double GetRadian()const;
 	//時計回りに回転させた時のベクトルを返す(角度の単位はラジアン)
 	Vector2D turn(double radian)const;
 };

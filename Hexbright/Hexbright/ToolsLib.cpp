@@ -6,6 +6,10 @@
 
 
 //Vector2D‚É‚Â‚¢‚Ä‚ÌŠÖ”
+double Vector2D::GetRadian()const{
+	return std::atan2((double)y,(double)x);
+}
+
 Vector2D Vector2D::turn(double radian)const{
 	float cos=(float)(std::cos(radian)),sin=(float)(std::sin(radian));
 	return Vector2D(x*cos-y*sin,x*sin+y*cos);	
