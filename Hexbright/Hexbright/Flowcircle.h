@@ -41,6 +41,7 @@ public:
 	void Update(const Stage &stage,const PutPos &cursor,const Vector2D &center,ScoreSystem &scoreSystem);//変数の更新
 	bool FlowEnd()const;//導線辿りの終了した時のみtrueを返す
 	bool Boot(const Stage &stage,const PutPos &cursor,const int bootVertex,ScoreSystem &scoreSystem);//導線巡りを開始させる(失敗時はfalseを返す)
+	bool CirclingFlag()const;//導線巡りが１周したかを判定する関数
 };
 
 #endif // !DEF_FLOWCIRCLE_H

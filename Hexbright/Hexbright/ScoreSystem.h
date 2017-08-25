@@ -19,6 +19,8 @@ protected:
 	
 	//導線巡り中のみ初期状態ではなくなる変数
 	int m_combo;//連鎖数
+	//そのうち、AddBlockScore()での計算をラクにするための途中経過を残しておくだけの変数
+	int m_flowingScore;//現在の導線巡りで稼いでいる得点
 
 	//描画用の変数
 	
@@ -29,15 +31,17 @@ protected:
 	//関数
 protected:
 	virtual int CalBlockScore(std::shared_ptr<const Block> pb,int count)const;//ブロックを消去した時に得られる得点を計算する。キャラによって変更できるように仮想関数とするが、モブキャラの得点計算はこれによって行う。
+	void InitFlowingPal();//導線巡り中のみ使用する値を初期化する
 
 public:
 	ScoreSystem();
 	~ScoreSystem();
 	void Update();//表示するものの更新（位置や数値など）
-	void AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage);//末尾にあるブロックのスコアを加算する
+	void AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage);//末尾にあるブロックのスコアを加算する。blockPosVecに要素が１つだけ追加されたという前提のもと使用される。
+	void AddFlowEndScore(bool circlingFlag);//周回終了時に１周成功判定を行ってボーナススコアを加算する。初期化も行う。
 	void Draw(Vector2D center)const;//表示関数
 	int GetScore()const;//現在の得点を返す(m_score.endxの値)
-	void InitFlowingPal();//導線巡り中のみ使用する値を初期化する
+	
 };
 
 #endif // !DEF_SCORESYSTEM_H

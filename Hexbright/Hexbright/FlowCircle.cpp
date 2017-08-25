@@ -69,7 +69,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 			//次の目的地を設定するかの判定
 			std::shared_ptr<const Block> pb=stage.GetBlock(blockPos);
 			flowflag=false;//一旦導線巡りを終了させたことにし、継続可能ならtrueに戻す
-			if((destination-startPos).size()>0){
+			if(!CirclingFlag()){
 				//現在の目的地がスタート地点に一致していないなら
 				if(pb.get()!=nullptr){
 					//次に進むブロックが存在していて……
@@ -155,3 +155,6 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVert
 	return false;
 }
 
+bool FlowCircle::CirclingFlag()const{
+	return (destination-startPos).size()==0;
+}

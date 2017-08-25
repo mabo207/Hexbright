@@ -29,22 +29,7 @@ void ScoreSystem::Update(){
 }
 
 void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage){
-/*
-	int count=0;//何連鎖目なのかを記録する
-	for(const PutPos &pos:blockPosVec){
-		//posにあるブロック情報を求める
-		std::shared_ptr<const Block> pb=stage.GetBlock(pos);
-		//連鎖判定
-		count++;//ひとまずこう
-		//ブロック情報から得点を求める
-		int score=CalBlockScore(pb,count);
-		//ブロック得点と描画位置情報群に記録
-
-		//全体スコアに加算
-		m_score.SetTarget(this->GetScore()+score,true);
-	}
-//*/
-
+/*//コンボ数の計算アルゴリズム。AddBlockScore()の使用される制約条件より、m_comboを1にするかインクリメントするかで処理ができるので簡単にする。
 	//末尾のブロックについてコンボ数を計算
 	int combo=1;
 	std::vector<PutPos>::const_iterator it=blockPosVec.end(),itb=blockPosVec.begin();
@@ -61,9 +46,41 @@ void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Sta
 		}
 	}
 	m_combo=combo;//コンボ数の更新
-	//得点加算
+//*/
+	//末尾のブロックについてコンボを増やすかの判定
+	std::vector<PutPos>::const_iterator it=blockPosVec.end(),itb=blockPosVec.begin();
+	it--;
+	std::shared_ptr<const Block> pDelBlock=stage.GetBlock(*it);//加算するブロックの対象
+	if(it!=blockPosVec.begin()){
+		it--;
+		std::shared_ptr<const Block> pb=stage.GetBlock(*it);//pDelBlockの1個前のブロック
+		if(true){
+			//連鎖条件を満たしている場合
+			m_combo++;
+		}else{
+			//連鎖条件を満たしていない
+			m_combo=1;
+		}
+	}else{
+		//始めの１つめは必ず1コンボ目にする必要がある
+		m_combo=1;
+	}
+	//加算スコアの計算
 	int score=CalBlockScore(pDelBlock,m_combo);
-	m_score.SetTarget(this->GetScore()+score,true);
+	//ブロック単体のスコアの表示設定
+
+	//スコア加算
+	m_score.SetTarget(this->GetScore()+score,true);//スコアに加算
+	m_flowingScore+=score;//導線巡り中に稼いだスコアにも加算
+}
+
+void ScoreSystem::AddFlowEndScore(bool circlingFlag){
+	//１周したかの判定
+	if(circlingFlag){
+		m_score.SetTarget(this->GetScore()+m_flowingScore/2,true);//周回によるスコアの半分を加算
+	}
+	//導線巡りについての変数の初期化
+	InitFlowingPal();
 }
 
 void ScoreSystem::Draw(Vector2D center)const{
@@ -91,4 +108,5 @@ int ScoreSystem::GetScore()const{
 
 void ScoreSystem::InitFlowingPal(){
 	m_combo=0;
+	m_flowingScore=0;
 }
