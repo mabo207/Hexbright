@@ -201,6 +201,23 @@ int DrawStringCenterBaseToHandle(const int centerx,const int centery,const char 
 	}
 }
 
+//右揃えの文字列描画
+int DrawStringRightJustifiedToHandle(int x,int y,const std::string &str,int color,int handle,unsigned int edgeColor,int verticalFlag){
+	const char *const pc=str.c_str();
+	int dx=GetDrawStringWidthToHandle(pc,str.size(),handle,verticalFlag);
+	return DrawStringToHandle(x-dx,y,pc,color,handle,edgeColor,verticalFlag);
+}
+
+//int→string変換の際に、0詰めを行うようにする
+std::string to_string_0d(int pal,unsigned int length){
+	std::string str=std::to_string(pal);
+	str.reserve(length);
+	for(unsigned int i=str.size();i<length;i++){
+		str="0"+str;
+	}
+	return str;
+}
+
 //数値変化を様々な式で管理するクラス
 //---Easing---
 Easing::Easing(int i_x,int i_maxflame,TYPE i_type,FUNCTION i_function,double i_degree)

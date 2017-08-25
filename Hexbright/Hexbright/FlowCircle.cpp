@@ -2,6 +2,11 @@
 #include"Flowcircle.h"
 
 //-----------------------FlowCircle-----------------------
+/*
+加速倍率についてのメモ。
+1.05くらいだと、23連鎖くらいで速さを感じ始め、30連鎖くらいで速く感じ、48連鎖くらいでめっちゃ速く感じる。
+*/
+
 FlowCircle::FlowCircle(PutPos i_blockPos,Vector2D i_drawPos)
 	:blockPos(i_blockPos),drawPos(i_drawPos)
 	,beginVertex(-1),endVertex(-1),flowflag(false)
@@ -93,7 +98,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 				if(startDir==endVertex && startBlock==blockPos){
 					//導線巡り開始時の目的辺が行き先であれば、行き先を開始場所に。
 					destination=startPos;
-				} else{
+				}else{
 					//そうでないなら、行き先を辺に。
 					destination=pb.get()->GetVertexPos(endVertex);
 				}

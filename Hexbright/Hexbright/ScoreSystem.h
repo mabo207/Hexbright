@@ -17,6 +17,8 @@ class ScoreSystem{
 protected:
 	Easing m_score;//現在の得点表示。
 	
+	//導線巡り中のみ初期状態ではなくなる変数
+	int m_combo;//連鎖数
 
 	//描画用の変数
 	
@@ -32,9 +34,10 @@ public:
 	ScoreSystem();
 	~ScoreSystem();
 	void Update();//表示するものの更新（位置や数値など）
-	void AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage);//スコアを追加する
+	void AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage);//末尾にあるブロックのスコアを加算する
 	void Draw(Vector2D center)const;//表示関数
 	int GetScore()const;//現在の得点を返す(m_score.endxの値)
+	void InitFlowingPal();//導線巡り中のみ使用する値を初期化する
 };
 
 #endif // !DEF_SCORESYSTEM_H
