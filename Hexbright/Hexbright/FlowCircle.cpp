@@ -10,7 +10,7 @@
 FlowCircle::FlowCircle(PutPos i_blockPos,Vector2D i_drawPos)
 	:blockPos(i_blockPos),drawPos(i_drawPos)
 	,beginVertex(-1),endVertex(-1),flowflag(false)
-	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),baseAccele(1.05),baseSpeed(4.0),destination(0,0)
+	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),baseAccele((float)1.05),baseSpeed(4.0),destination(0,0)
 {
 	//ゲーム開始時にのみ呼ばれるのでこれで良い
 	speed=baseSpeed;
@@ -34,7 +34,7 @@ void FlowCircle::Draw(Vector2D center)const{
 	}
 }
 
-void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &center){
+void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &center,ScoreSystem &scoreSystem){
 	flowend=false;//常にfalseにする。更新時に特別なことがあればその時のみtrueとなるようにする
 	if(flowflag){
 		//導線巡りが始まっている場合
@@ -78,6 +78,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 						//対応する辺も存在するならば
 						flowflag=true;//導線巡り継続
 						blockPosVec.push_back(blockPos);//経由したブロックの位置情報を追加
+						scoreSystem.AddBlockScore(blockPosVec,stage);//点数の加算
 						speed*=accele;
 					}
 				}
@@ -115,7 +116,7 @@ bool FlowCircle::FlowEnd()const{
 	return flowend;
 }
 
-bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVertex){
+bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVertex,ScoreSystem &scoreSystem){
 	//その場所にブロックがあり、ブロックに導線が存在するか調べる
 	std::shared_ptr<const Block> pb=stage.GetBlock(cursor);
 	if(pb.get()!=nullptr && pb.get()->GetConductor(bootVertex).JudgeExist()){
@@ -136,6 +137,7 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVert
 		//発火したので経由したブロックの位置群情報は１つめのブロックがあるだけにしておく
 		blockPosVec.clear();
 		blockPosVec.push_back(cursor);
+		scoreSystem.AddBlockScore(blockPosVec,stage);
 		//現在の小さい丸の描画位置を求める
 		drawPos=pb.get()->GetVertexPos(beginVertex);
 		//現在の小さい丸がどの六角形を通っているかを求める

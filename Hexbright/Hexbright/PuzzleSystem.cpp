@@ -110,12 +110,14 @@ void PuzzleSystem::TurnBootVertex(int n){
 
 void PuzzleSystem::Update(){
 	//丸の更新
-	m_flowCircle.Update(m_stage,m_cursor,m_center);
+	m_flowCircle.Update(m_stage,m_cursor,m_center,m_score);
 	m_score.Update();
 	if(m_flowCircle.FlowEnd()){
 		//ちょうど導線巡りが終了したら
 		//得点加算処理
-		m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
+		//m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
+		//得点計算初期化
+		m_score.InitFlowingPal();
 		//妨害送信処理
 
 		//ブロック消去処理
@@ -173,7 +175,7 @@ void PuzzleSystem::Update(){
 		}
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		//起動
-		m_flowCircle.Boot(m_stage,m_cursor,m_bootVertex);
+		m_flowCircle.Boot(m_stage,m_cursor,m_bootVertex,m_score);
 	}
 	//発火点変更入力受付
 	if(keyboard_get(KEY_INPUT_1)%10==1){
