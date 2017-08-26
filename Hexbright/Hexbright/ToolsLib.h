@@ -80,6 +80,12 @@ int DrawExtendGraphSizeAssign(int x,int y,int dx,int dy,int GrHandle,int TransFl
 //中央の描画位置を指定した文字列描画
 int DrawStringCenterBaseToHandle(const int centerx,const int centery,const char *str,unsigned int color,int fonthandle,bool yposcenterbaseflag,unsigned int EdgeColor=0U,int VerticalFlag=0);
 
+//右寄せの文字列描画
+int DrawStringRightJustifiedToHandle(int x,int y,const std::string &str,int color,int handle,unsigned int edgeColor=0U,int verticalFlag=0);
+
+//int→string変換の際に、0詰めを行うようにする
+std::string to_string_0d(int pal,unsigned int length);
+
 //数値の変化を様々な式で管理するクラス
 class Easing{
 	//列挙体

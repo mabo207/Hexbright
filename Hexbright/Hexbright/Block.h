@@ -55,6 +55,7 @@ public:
 	void Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const;//描画処理の要素全てを引数に取れる
 	Conductor GetConductor(int n)const;//入口の番号からそのブロックが持っている導線を返す
 	Vector2D GetVertexPos(int n)const;//辺番号からその位置を返す
+	Vector2D GetPos()const;//中心の絶対位置を返す
 	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)
 	void Move(Vector2D pos){
 		//posに中心を動かす
