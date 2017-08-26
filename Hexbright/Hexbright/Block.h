@@ -72,6 +72,7 @@ public:
 	Vector2D GetPos()const;//中心の絶対位置を返す
 	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)
 	bool JudgeConnect(const Block &otherobj)const;
+	virtual int GetBaseScore(int gameMode)const=0;//ブロックの種類によって基本得点が決定する。なお、スコアアタックかVSモードかで基本得点を変えるかもしれないので引数を渡すようにしている。
 	void Move(Vector2D pos){
 		//posに中心を動かす
 		m_shape.get()->Move(pos);

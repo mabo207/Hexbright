@@ -50,8 +50,8 @@ std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BonusScorePos::BonusSco
 
 //-----------------------------ScoreSystem-----------------------------
 int ScoreSystem::CalBlockScore(std::shared_ptr<const Block> pb,int count)const{
-	//現状とりあえずこうしておく。実際はpbに得点素点を返させて処理する。
-	return 400*count;
+	//現状とりあえずこうしておく。実際はキャラクターの性質によって変化をつけるし、スコアアタックかVSモードかの引数もしっかり与える。
+	return pb->GetBaseScore(1)*count;
 }
 
 ScoreSystem::ScoreSystem()

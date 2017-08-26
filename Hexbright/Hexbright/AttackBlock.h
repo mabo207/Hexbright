@@ -19,6 +19,7 @@ public:
 	AttackBlock(Vector2D center,const std::vector<Conductor> conductors)
 		:Block(center,conductors,Feature::attack){}
 	unsigned int GetColor()const;
+	int GetBaseScore(int gameMode)const;//ブロックの種類によって基本得点が決定する。なお、スコアアタックかVSモードかで基本得点を変えるかもしれないので引数を渡すようにしている。
 };
 
 
