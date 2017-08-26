@@ -117,7 +117,7 @@ void PuzzleSystem::Update(){
 		//得点加算処理
 		//m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
 		//導線巡り終了時の点数加算。初期化も行う。
-		m_score.AddFlowEndScore(m_flowCircle.CirclingFlag());
+		m_score.AddFlowEndScore(m_flowCircle.CirclingFlag(),m_flowCircle.drawPos);
 		//妨害送信処理
 
 		//ブロック消去処理

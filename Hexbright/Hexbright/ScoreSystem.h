@@ -10,6 +10,32 @@
 //スコアを管理し、それに関する数値を表示するクラス
 class ScoreSystem{
 	//型
+protected:
+	//ブロック点数の描画要素
+	struct BlockScorePos{
+		//定数
+	protected:
+		static const double singleDegree;//SingleBlockScore()におけるposのdegreeの初期化値
+		static const int singleFlame;//SingleBlockScore()におけるposのflameの初期化値
+		static const double bonusRate;//BonusScore()ではSingleBlockScore()より何倍長く表示させるか
+		//変数
+	public:
+		std::string score;//点数
+		PositionControl pos;//表示位置
+		//関数
+	protected:
+		BlockScorePos(const std::string &i_score,PositionControl i_pos);
+	public:
+		~BlockScorePos();
+		virtual void Draw(int font)const;
+		//静的関数
+		static std::shared_ptr<BlockScorePos> SingleBlockScore(int i_score,Vector2D v);//1つの導線によって得られる点数の表示
+	};
+	struct BonusScorePos:public BlockScorePos{
+		BonusScorePos(const std::string &i_score,PositionControl i_pos):BlockScorePos(i_score,i_pos){}
+		void Draw(int font)const;
+		static std::shared_ptr<BlockScorePos> BonusScore(int i_score,Vector2D v);//周回後のボーナスによって得られる点数の表示
+	};
 
 	//定数
 
@@ -23,6 +49,7 @@ protected:
 	int m_flowingScore;//現在の導線巡りで稼いでいる得点
 
 	//描画用の変数
+	std::vector<std::shared_ptr<BlockScorePos>> m_scoreTexts;//ブロックの点数の表示
 	
 	//フォント
 	const int m_totalScoreFont;//合計得点を表示するためのフォント
@@ -38,7 +65,7 @@ public:
 	~ScoreSystem();
 	void Update();//表示するものの更新（位置や数値など）
 	void AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage);//末尾にあるブロックのスコアを加算する。blockPosVecに要素が１つだけ追加されたという前提のもと使用される。
-	void AddFlowEndScore(bool circlingFlag);//周回終了時に１周成功判定を行ってボーナススコアを加算する。初期化も行う。
+	void AddFlowEndScore(bool circlingFlag,const Vector2D &flowCirclePos);//周回終了時に１周成功判定を行ってボーナススコアを加算する。初期化も行う。
 	void Draw(Vector2D center)const;//表示関数
 	int GetScore()const;//現在の得点を返す(m_score.endxの値)
 	

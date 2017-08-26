@@ -111,6 +111,10 @@ Vector2D Block::GetVertexPos(int n)const{
 	return GetVertexPos(n,m_shape->GetCenter());
 }
 
+Vector2D Block::GetPos()const{
+	return m_shape.get()->GetCenter();
+}
+
 void Block::Turn(int n){
 	//‘¶İ‚·‚é“±ü‚ğ‰ñ“]‚³‚¹‚é
 	for(Conductor &c:m_conductors){

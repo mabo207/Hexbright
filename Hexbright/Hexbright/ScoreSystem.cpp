@@ -2,6 +2,52 @@
 #include"ScoreSystem.h"
 #include"PuzzleSystem.h"
 
+//-----------------------------ScoreSystem::BlockScorePos-----------------------------
+const double ScoreSystem::BlockScorePos::singleDegree=14;
+const int ScoreSystem::BlockScorePos::singleFlame=30;
+const double ScoreSystem::BlockScorePos::bonusRate=2;
+
+ScoreSystem::BlockScorePos::BlockScorePos(const std::string &i_score,PositionControl i_pos)
+	:score(i_score),pos(i_pos){}
+
+ScoreSystem::BlockScorePos::~BlockScorePos(){}
+
+void ScoreSystem::BlockScorePos::Draw(int font)const{
+	DrawStringCenterBaseToHandle(pos.GetX(),pos.GetY(),score.c_str()
+		,GetColor(255,255,255),font,true,GetColor(0,0,0));
+}
+
+std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BlockScorePos::SingleBlockScore(int i_score,Vector2D v){
+	std::shared_ptr<BlockScorePos> pb(new BlockScorePos(
+		std::to_string(i_score)
+		,PositionControl((int)v.x,(int)v.y,singleFlame,Easing::TYPE_OUT,Easing::FUNCTION_EXPO,singleDegree)
+	));
+	//移動先の決定
+	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()+(int)(Block::BaseVector.y*(float)0.75),true);
+	return pb;
+}
+
+//-----------------------------ScoreSystem::BonusScorePos-----------------------------
+void ScoreSystem::BonusScorePos::Draw(int font)const{
+	int fontsize=GetFontSizeToHandle(font);
+	//上の文字(BONUS!!)を描画
+	DrawStringCenterBaseToHandle(pos.GetX(),pos.GetY()-fontsize,"BONUS!!"
+		,GetColor(255,255,0),font,false,GetColor(0,0,0));
+	//下の文字(score)を描画
+	DrawStringCenterBaseToHandle(pos.GetX(),pos.GetY(),score.c_str()
+		,GetColor(255,255,255),font,false,GetColor(0,0,0));
+}
+
+std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BonusScorePos::BonusScore(int i_score,Vector2D v){
+	std::shared_ptr<BlockScorePos> pb(new BonusScorePos(
+		std::to_string(i_score)
+		,PositionControl((int)v.x,(int)v.y,(int)(singleFlame*bonusRate),Easing::TYPE_OUT,Easing::FUNCTION_EXPO,singleFlame*bonusRate)
+	));
+	//移動先の決定
+	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()+(int)(Block::BaseVector.y*(float)0.75),true);
+	return pb;
+}
+
 //-----------------------------ScoreSystem-----------------------------
 int ScoreSystem::CalBlockScore(std::shared_ptr<const Block> pb,int count)const{
 	//現状とりあえずこうしておく。実際はpbに得点素点を返させて処理する。
@@ -11,7 +57,7 @@ int ScoreSystem::CalBlockScore(std::shared_ptr<const Block> pb,int count)const{
 ScoreSystem::ScoreSystem()
 	:m_score(0,60,Easing::TYPE_IN,Easing::FUNCTION_EXPO,3.0)
 	,m_totalScoreFont(CreateFontToHandle("Eras Bold ITC",32,4,-1))
-	,m_blockScoreFont(CreateFontToHandle("FAMania",8,1,-1))
+	,m_blockScoreFont(CreateFontToHandle("FAMania",10,1,DX_FONTTYPE_EDGE))
 {
 	InitFlowingPal();
 }
@@ -25,7 +71,15 @@ void ScoreSystem::Update(){
 	//表示する値の更新
 	m_score.Update();
 	//ブロック点数群の表示する位置の更新、また表示期間が終わったら点数群をerase()する。
-
+	for(std::vector<std::shared_ptr<BlockScorePos>>::const_iterator it=m_scoreTexts.begin();it!=m_scoreTexts.end();){
+		if(it->get()->pos.GetEndFlag()){
+			//表示時間を過ぎた場合
+			it=m_scoreTexts.erase(it);
+		}else{
+			it->get()->pos.Update();
+			it++;
+		}
+	}
 }
 
 void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Stage &stage){
@@ -66,18 +120,20 @@ void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Sta
 		m_combo=1;
 	}
 	//加算スコアの計算
-	int score=CalBlockScore(pDelBlock,m_combo);
+	const int score=CalBlockScore(pDelBlock,m_combo);
 	//ブロック単体のスコアの表示設定
-
+	m_scoreTexts.push_back(BlockScorePos::SingleBlockScore(score,pDelBlock->GetPos()));
 	//スコア加算
 	m_score.SetTarget(this->GetScore()+score,true);//スコアに加算
 	m_flowingScore+=score;//導線巡り中に稼いだスコアにも加算
 }
 
-void ScoreSystem::AddFlowEndScore(bool circlingFlag){
+void ScoreSystem::AddFlowEndScore(bool circlingFlag,const Vector2D &flowCirclePos){
 	//１周したかの判定
 	if(circlingFlag){
-		m_score.SetTarget(this->GetScore()+m_flowingScore/2,true);//周回によるスコアの半分を加算
+		const int addScore=m_flowingScore/2;
+		m_scoreTexts.push_back(BonusScorePos::BonusScore(addScore,flowCirclePos));
+		m_score.SetTarget(this->GetScore()+addScore,true);//周回によるスコアの半分を加算
 	}
 	//導線巡りについての変数の初期化
 	InitFlowingPal();
@@ -97,7 +153,9 @@ void ScoreSystem::Draw(Vector2D center)const{
 			,std::to_string(m_combo)+"COMBO",GetColor(255,255,255),m_totalScoreFont);
 	}
 	//ブロック点数の表示
-
+	for(const std::shared_ptr<BlockScorePos> &pb:m_scoreTexts){
+		pb->Draw(m_blockScoreFont);
+	}
 	
 
 }
