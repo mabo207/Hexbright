@@ -1,0 +1,28 @@
+#ifndef DEF_HEALBLOCK_H
+#define DEF_HEALBLOCK_H
+
+#include"Block.h"
+
+//消すとお邪魔ブロックを送る得点ブロック
+class HealBlock:public Block{
+	//列挙体・型
+
+	//定数
+
+	//変数
+protected:
+
+	//関数
+protected:
+
+public:
+	HealBlock(Vector2D center,const std::vector<Conductor> conductors)
+		:Block(center,conductors,Feature::heal){}
+	unsigned int GetColor()const;
+};
+
+
+
+
+#endif // !DEF_HEALBLOCK_H
+#pragma once

@@ -57,11 +57,11 @@ const int Block::lineThick=3;
 const unsigned int Block::lineColor=DxLib::GetColor(127,127,127);
 const Vector2D Block::BaseVector=Vector2D(0,-40);
 
-Block::Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors)
-	:m_shape(shape),m_conductors(conductors){}
+Block::Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors,Feature i_feature)
+	:m_shape(shape),m_conductors(conductors),m_feature(i_feature){}
 
-Block::Block(Vector2D center,const std::vector<Conductor> &conductors)
-	:m_shape(std::shared_ptr<Hexagon>(new Hexagon(center,BaseVector))),m_conductors(conductors){}
+Block::Block(Vector2D center,const std::vector<Conductor> &conductors,Feature i_feature)
+	:m_shape(std::shared_ptr<Hexagon>(new Hexagon(center,BaseVector))),m_conductors(conductors),m_feature(i_feature){}
 
 Block::~Block(){}
 
@@ -121,6 +121,10 @@ void Block::Turn(int n){
 		c.turn(n);
 	}
 	
+}
+
+bool Block::JudgeConnect(const Block &otherobj)const{
+	return (this->GetFeature().kind & otherobj.GetFeature().kind)!=0;
 }
 
 Vector2D Block::GetVertexPos(int n,Vector2D center){

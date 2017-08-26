@@ -119,9 +119,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackBlock.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="ConnectBlock.cpp" />
     <ClCompile Include="FlowCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
+    <ClCompile Include="HealBlock.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,9 +136,12 @@
     <ClCompile Include="ToolsLib.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackBlock.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="ConnectBlock.h" />
     <ClInclude Include="Flowcircle.h" />
     <ClInclude Include="GraphicControl.h" />
+    <ClInclude Include="HealBlock.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="NormalBlock.h" />

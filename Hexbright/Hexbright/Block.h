@@ -10,6 +10,19 @@
 class Block{
 	//列挙体・型
 public:
+	//性質(継承先を示す)
+	struct Feature{
+		enum Kind{
+			//種類を表す。また、ビット演算をすれば連鎖可能かの判定ができる
+			normal=0x01,
+			attack=0x02,
+			heal=0x04,
+			connect=0xff
+		};
+		Kind kind;
+		Feature(Kind i_kind):kind(i_kind){}
+		~Feature(){}
+	};
 	//導線
 	struct Conductor{
 	private:
@@ -38,14 +51,15 @@ public:
 protected:
 	std::shared_ptr<Hexagon> m_shape;//形状・モノクロ描画形式(位置大きさとどのくらい綺麗に表示するか)
 	std::vector<Conductor> m_conductors;//導線群
+	Feature m_feature;//性質(継承されたクラス)
 
 	//関数
 protected:
 	virtual unsigned int GetColor()const=0;//ブロックの種類によって決定する色コードを取得する
 
 public:
-	Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors);
-	Block(Vector2D center,const std::vector<Conductor> &conductors);
+	Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors,Feature i_feature);
+	Block(Vector2D center,const std::vector<Conductor> &conductors,Feature i_feature);
 	~Block();
 
 	//普通の関数
@@ -57,12 +71,16 @@ public:
 	Vector2D GetVertexPos(int n)const;//辺番号からその位置を返す
 	Vector2D GetPos()const;//中心の絶対位置を返す
 	void Turn(int n);//ブロックを回転させる。導線の回転とアニメーションの出力(こちらは未実装)
+	bool JudgeConnect(const Block &otherobj)const;
 	void Move(Vector2D pos){
 		//posに中心を動かす
 		m_shape.get()->Move(pos);
 	}
 	std::vector<Conductor> GetConductors()const{
 		return m_conductors;
+	}
+	Feature GetFeature()const{
+		return m_feature;
 	}
 
 	//静的関数

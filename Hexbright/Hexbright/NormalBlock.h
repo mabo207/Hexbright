@@ -17,7 +17,7 @@ protected:
 
 public:
 	NormalBlock(Vector2D center,const std::vector<Conductor> conductors)
-		:Block(center,conductors){}
+		:Block(center,conductors,Feature::normal){}
 	unsigned int GetColor()const;
 };
 

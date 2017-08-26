@@ -75,6 +75,15 @@
     <ClCompile Include="ScoreSystem.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="AttackBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="HealBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicControl.h">
@@ -109,6 +118,15 @@
     </ClInclude>
     <ClInclude Include="ScoreSystem.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="HealBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
