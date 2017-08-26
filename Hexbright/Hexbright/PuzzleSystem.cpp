@@ -4,6 +4,9 @@
 #include<set>
 
 #include"NormalBlock.h"
+#include"AttackBlock.h"
+#include"HealBlock.h"
+#include"ConnectBlock.h"
 
 //-----------------------PuzzleSystem-----------------------
 const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(800,600);
@@ -49,7 +52,19 @@ void PuzzleSystem::AddSavedBlock(){
 			break;
 		}
 	}
-	m_savedBlock.push_back(std::shared_ptr<Block>(new NormalBlock(m_center+m_cursor.relativecoordinates(Block::BaseVector),cons)));
+	//図形を格納。ただし種類はランダム。
+	//配当確率:red-30%,blue-30%,green-30%,yellow-10%
+	int rand=GetRand(100);
+	if(rand<30){
+		m_savedBlock.push_back(std::shared_ptr<Block>(new NormalBlock(m_center+m_cursor.relativecoordinates(Block::BaseVector),cons)));
+	}else if(rand<60){
+		m_savedBlock.push_back(std::shared_ptr<Block>(new AttackBlock(m_center+m_cursor.relativecoordinates(Block::BaseVector),cons)));
+	}else if(rand<90){
+		m_savedBlock.push_back(std::shared_ptr<Block>(new HealBlock(m_center+m_cursor.relativecoordinates(Block::BaseVector),cons)));
+	}else{
+		m_savedBlock.push_back(std::shared_ptr<Block>(new ConnectBlock(m_center+m_cursor.relativecoordinates(Block::BaseVector),cons)));
+	}
+	
 
 }
 

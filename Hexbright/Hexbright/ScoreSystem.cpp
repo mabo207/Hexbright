@@ -92,7 +92,7 @@ void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Sta
 	for(;it!=itb;){
 		it--;
 		std::shared_ptr<const Block> pb=stage.GetBlock(*it);//pDelBlockのcombo個前のブロック
-		if(false){
+		if(!pDelBlock->JudgeConnect(*pb.get())){
 			//連鎖条件を満たしていない場合
 			break;
 		}else{
