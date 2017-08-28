@@ -102,12 +102,16 @@ void Block::Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsi
 		m_shape.get()->Draw(pos,vertexColor,0);
 	}
 	//“±ü‚Ì•`‰æ
+	int mode,pal;
+	GetDrawBlendMode(&mode,&pal);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA,(mode==DX_BLENDMODE_ALPHA?pal:255)*alpha/255);
 	Hexagon::Vertexs vs=m_shape.get()->GetPoints(pos);
 	for(Conductor c:m_conductors){
 		Vector2D v0=(vs.GetPoint(c.GetN(0))+vs.GetPoint((c.GetN(0)+1)%Hexagon::Vertexs::vnum))/2
 			,v1=(vs.GetPoint(c.GetN(1))+vs.GetPoint((c.GetN(1)+1)%Hexagon::Vertexs::vnum))/2;
 		DrawLine((int)(v0.x),(int)(v0.y),(int)(v1.x),(int)(v1.y),conductorColor,conductorThick);
 	}
+	SetDrawBlendMode(mode,pal);
 }
 
 Block::Conductor Block::GetConductor(int n)const{
