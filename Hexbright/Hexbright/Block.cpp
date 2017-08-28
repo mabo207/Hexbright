@@ -65,7 +65,14 @@ Block::Block(Vector2D center,const std::vector<Conductor> &conductors,Feature i_
 
 Block::~Block(){}
 
+unsigned int Block::GetColor()const{
+	int red,green,blue;
+	GetColor2(GetVertexColor(),&red,&green,&blue);
+	return DxLib::GetColor(red/2+80,green/2+80,blue/2+80);
+}
+
 void Block::Draw()const{
+	/*
 	//³˜ZŠpŒ`‚Ì•`‰æ
 	m_shape.get()->Draw(GetColor(),128);
 	//“±ü‚Ì•`‰æ
@@ -75,19 +82,25 @@ void Block::Draw()const{
 			,v1=(vs.GetPoint(c.GetN(1))+vs.GetPoint((c.GetN(1)+1)%Hexagon::Vertexs::vnum))/2;
 		DrawLine((int)(v0.x),(int)(v0.y),(int)(v1.x),(int)(v1.y),lineColor,lineThick);
 	}
+	//*/
+	Draw(m_shape->GetCenter());
 }
 
 void Block::Draw(Vector2D pos)const{
-	Draw(pos,GetColor(),lineColor,128,lineThick);
+	Draw(pos,GetColor(),GetVertexColor(),lineColor,255,lineThick);
 }
 
 void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor)const{
-	Draw(pos,vertexColor,conductorColor,30,lineThick);
+	Draw(pos,GetColor(),vertexColor,conductorColor,128,lineThick);
 }
 
-void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{
+void Block::Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{
 	//³˜ZŠpŒ`‚Ì•`‰æ
-	m_shape.get()->Draw(pos,vertexColor,alpha);
+	m_shape.get()->Draw(pos,inColor,alpha);
+	if(vertexColor!=inColor){
+		//•Ó‚ÌF‚ð•ÏX‚µ‚½‚¢ê‡‚Ì‚Ý•Ó‚¾‚¯”í‚¹‚Ä•`‰æ
+		m_shape.get()->Draw(pos,vertexColor,0);
+	}
 	//“±ü‚Ì•`‰æ
 	Hexagon::Vertexs vs=m_shape.get()->GetPoints(pos);
 	for(Conductor c:m_conductors){

@@ -3,7 +3,7 @@
 
 
 //---------------------NormalBlock---------------------
-unsigned int NormalBlock::GetColor()const{
+unsigned int NormalBlock::GetVertexColor()const{
 	return DxLib::GetColor(255,128,128);
 }
 

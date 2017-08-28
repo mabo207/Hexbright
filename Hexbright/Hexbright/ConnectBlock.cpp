@@ -2,7 +2,7 @@
 #include"DxLib.h"
 
 //-----------------------ConnectBlock-----------------------
-unsigned int ConnectBlock::GetColor()const{
+unsigned int ConnectBlock::GetVertexColor()const{
 	return DxLib::GetColor(196,196,64);
 }
 

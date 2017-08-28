@@ -2,7 +2,7 @@
 #include"DxLib.h"
 
 //-----------------------AttackBlock-----------------------
-unsigned int AttackBlock::GetColor()const{
+unsigned int AttackBlock::GetVertexColor()const{
 	return DxLib::GetColor(128,128,255);
 }
 

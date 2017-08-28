@@ -55,7 +55,8 @@ protected:
 
 	//関数
 protected:
-	virtual unsigned int GetColor()const=0;//ブロックの種類によって決定する色コードを取得する
+	virtual unsigned int GetColor()const;//ブロックの種類によって決定する色コードを取得するただしデフォルトではGetColor(160,160,160)の灰色との50%混合とする。
+	virtual unsigned int GetVertexColor()const=0;//ブロックの種類によって決定する辺の色コードを取得する。
 
 public:
 	Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors,Feature i_feature);
@@ -66,7 +67,7 @@ public:
 	void Draw()const;//ブロックを指定通りに描画
 	void Draw(Vector2D pos)const;//ブロックの位置を指定して描画(溜めているブロックの描画等)
 	void Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor)const;//辺と導線群を描画する(もしここに置いたらどうなるみたいなガイド)
-	void Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const;//描画処理の要素全てを引数に取れる
+	void Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const;//描画処理の要素全てを引数に取れる
 	Conductor GetConductor(int n)const;//入口の番号からそのブロックが持っている導線を返す
 	Vector2D GetVertexPos(int n)const;//辺番号からその位置を返す
 	Vector2D GetPos()const;//中心の絶対位置を返す

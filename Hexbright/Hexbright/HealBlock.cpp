@@ -2,7 +2,7 @@
 #include"DxLib.h"
 
 //-----------------------HealBlock-----------------------
-unsigned int HealBlock::GetColor()const{
+unsigned int HealBlock::GetVertexColor()const{
 	return DxLib::GetColor(128,255,128);
 }
 
