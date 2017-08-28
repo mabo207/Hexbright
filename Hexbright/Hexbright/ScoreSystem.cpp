@@ -23,7 +23,7 @@ std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BlockScorePos::SingleBl
 		,PositionControl((int)v.x,(int)v.y,singleFlame,Easing::TYPE_OUT,Easing::FUNCTION_EXPO,singleDegree)
 	));
 	//ˆÚ“®æ‚ÌŒˆ’è
-	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()+(int)(Block::BaseVector.size()*(float)0.75),true);
+	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()-(int)(Block::BaseVector.size()*(float)0.75),true);
 	return pb;
 }
 
@@ -44,7 +44,7 @@ std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BonusScorePos::BonusSco
 		,PositionControl((int)v.x,(int)v.y,(int)(singleFlame*bonusRate),Easing::TYPE_OUT,Easing::FUNCTION_EXPO,singleFlame*bonusRate)
 	));
 	//ˆÚ“®æ‚ÌŒˆ’è
-	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()+(int)(Block::BaseVector.size()*(float)0.75),true);
+	pb->pos.SetTarget(pb->pos.GetX(),pb->pos.GetY()-(int)(Block::BaseVector.size()*(float)0.75),true);
 	return pb;
 }
 

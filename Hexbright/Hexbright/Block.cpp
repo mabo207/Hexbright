@@ -90,8 +90,8 @@ void Block::Draw(Vector2D pos)const{
 	Draw(pos,GetColor(),GetVertexColor(),lineColor,255,lineThick);
 }
 
-void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor)const{
-	Draw(pos,GetColor(),vertexColor,conductorColor,128,lineThick);
+void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorColor,int alpha)const{
+	Draw(pos,GetColor(),vertexColor,conductorColor,alpha,lineThick);
 }
 
 void Block::Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{

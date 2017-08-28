@@ -3,7 +3,11 @@
 
 //-----------------------ConnectBlock-----------------------
 unsigned int ConnectBlock::GetVertexColor()const{
-	return DxLib::GetColor(196,196,64);
+	return DxLib::GetColor(255,255,64);
+}
+
+unsigned int ConnectBlock::GetColor()const{
+	return DxLib::GetColor(200,200,112);
 }
 
 int ConnectBlock::GetBaseScore(int gameMode)const{

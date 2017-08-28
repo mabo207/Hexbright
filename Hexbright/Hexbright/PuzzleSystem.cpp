@@ -12,7 +12,9 @@
 const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(800,600);
 
 PuzzleSystem::PuzzleSystem()
-	:m_stage(5),m_cursor(0,0),m_bootVertex(0),m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center),m_score()
+	:m_stage(5),m_cursor(0,0),m_bootVertex(0)
+	,m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center)
+	,m_score(),m_flame(0)
 {
 	//初期化
 	for(int i=0;i<5;i++){
@@ -124,6 +126,8 @@ void PuzzleSystem::TurnBootVertex(int n){
 }
 
 void PuzzleSystem::Update(){
+	//時間の更新
+	m_flame++;
 	//丸の更新
 	m_flowCircle.Update(m_stage,m_cursor,m_center,m_score);
 	m_score.Update();
@@ -207,9 +211,9 @@ void PuzzleSystem::Draw()const{
 
 	//盤面の描画
 	m_stage.Draw(m_center);
-	//カーソルの描画(先頭のブロックを白く表示)
+	//カーソルの描画(先頭のブロックを白い辺・導線で表示。中の部分は点滅表示。)
 	Vector2D v=m_center+m_cursor.relativecoordinates(Block::BaseVector);//カーソル描画と発火点描画で用いる
-	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255));
+	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255),(-(m_flame%60-30)*(m_flame%60-30)+900)*255/900);
 	//発火点の描画
 	v=Block::GetVertexPos(m_bootVertex,v);
 	DrawCircle((int)v.x,(int)v.y,3,GetColor(128,128,255),TRUE);

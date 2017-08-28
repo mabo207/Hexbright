@@ -27,6 +27,7 @@ protected:
 	FlowCircle m_flowCircle;//導線を辿る小さな丸
 	ScoreSystem m_score;//スコア
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
+	int m_flame;//現在のスタートからのフレーム数
 
 	//関数
 protected:
