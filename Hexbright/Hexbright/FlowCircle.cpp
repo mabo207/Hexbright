@@ -10,7 +10,8 @@
 FlowCircle::FlowCircle(PutPos i_blockPos,Vector2D i_drawPos)
 	:blockPos(i_blockPos),drawPos(i_drawPos)
 	,beginVertex(-1),endVertex(-1),flowflag(false)
-	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),baseAccele((float)1.05),baseSpeed(4.0),destination(0,0)
+	,startPos(0,0),startDir(-1),startBlock(0,0),flowend(false),destination(0,0)
+	,baseAccele((float)1.05),baseSpeed(Block::BaseVector.size()/10)
 {
 	//ÉQÅ[ÉÄäJénéûÇ…ÇÃÇ›åƒÇŒÇÍÇÈÇÃÇ≈Ç±ÇÍÇ≈ó«Ç¢
 	speed=baseSpeed;
