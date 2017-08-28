@@ -118,40 +118,43 @@ bool FlowCircle::FlowEnd()const{
 }
 
 bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVertex,ScoreSystem &scoreSystem){
-	//その場所にブロックがあり、ブロックに導線が存在するか調べる
-	std::shared_ptr<const Block> pb=stage.GetBlock(cursor);
-	if(pb.get()!=nullptr && pb.get()->GetConductor(bootVertex).JudgeExist()){
-		//発火場所を決定(テキトー)
-		//本来は発火する六角形辺が入力されるのでそれを含む導線を求める
-		Block::Conductor c=pb.get()->GetConductor(bootVertex);
-		//１つ目の六角形の経由の際にどの辺からどの辺に向かうかを求める
-		//本来は発火辺をbeginVertexとし、導線情報から、導線の両端のうち発火辺でない辺をendVertexとする
-		beginVertex=bootVertex;
-		endVertex=c.GetOtherN(bootVertex);
-		//１周したかの判定をするために、発火点がどこにあり、そのの経由の際にどの方向に向かったかを記録する。
-		//なお、同じ六角形を２度以上通る回路の存在を認める必要があるのでstartBlockだけではだめ。
-		startDir=endVertex;
-		//startPos=drawPos;
-		startPos=pb->GetVertexPos(beginVertex);
-		//計算量を落とすために、予め発火点した六角形の位置を求める
-		startBlock=cursor;
-		//発火したので経由したブロックの位置群情報は１つめのブロックがあるだけにしておく
-		blockPosVec.clear();
-		blockPosVec.push_back(cursor);
-		scoreSystem.AddBlockScore(blockPosVec,stage);
-		//現在の小さい丸の描画位置を求める
-		drawPos=pb.get()->GetVertexPos(beginVertex);
-		//現在の小さい丸がどの六角形を通っているかを求める
-		blockPos=cursor;
-		//現在の小さい丸が向かう絶対座標を求める
-		destination=pb.get()->GetVertexPos(endVertex);
-		//小さい丸の速さを元に戻す
-		speed=baseSpeed;
+	//すでに導線巡りがされている場合のみ行う
+	if(!flowflag){
+		//その場所にブロックがあり、ブロックに導線が存在するか調べる
+		std::shared_ptr<const Block> pb=stage.GetBlock(cursor);
+		if(pb.get()!=nullptr && pb.get()->GetConductor(bootVertex).JudgeExist()){
+			//発火場所を決定(テキトー)
+			//本来は発火する六角形辺が入力されるのでそれを含む導線を求める
+			Block::Conductor c=pb.get()->GetConductor(bootVertex);
+			//１つ目の六角形の経由の際にどの辺からどの辺に向かうかを求める
+			//本来は発火辺をbeginVertexとし、導線情報から、導線の両端のうち発火辺でない辺をendVertexとする
+			beginVertex=bootVertex;
+			endVertex=c.GetOtherN(bootVertex);
+			//１周したかの判定をするために、発火点がどこにあり、そのの経由の際にどの方向に向かったかを記録する。
+			//なお、同じ六角形を２度以上通る回路の存在を認める必要があるのでstartBlockだけではだめ。
+			startDir=endVertex;
+			//startPos=drawPos;
+			startPos=pb->GetVertexPos(beginVertex);
+			//計算量を落とすために、予め発火点した六角形の位置を求める
+			startBlock=cursor;
+			//発火したので経由したブロックの位置群情報は１つめのブロックがあるだけにしておく
+			blockPosVec.clear();
+			blockPosVec.push_back(cursor);
+			scoreSystem.AddBlockScore(blockPosVec,stage);
+			//現在の小さい丸の描画位置を求める
+			drawPos=pb.get()->GetVertexPos(beginVertex);
+			//現在の小さい丸がどの六角形を通っているかを求める
+			blockPos=cursor;
+			//現在の小さい丸が向かう絶対座標を求める
+			destination=pb.get()->GetVertexPos(endVertex);
+			//小さい丸の速さを元に戻す
+			speed=baseSpeed;
 
-		//発火開始
-		flowflag=true;
+			//発火開始
+			flowflag=true;
 
-		return true;
+			return true;
+		}
 	}
 	return false;
 }
