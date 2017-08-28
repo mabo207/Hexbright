@@ -53,6 +53,12 @@ public:
 	//関数
 	size_t size()const;//xとyの絶対値の和。１次ノルム。
 	Vector2D relativecoordinates(Vector2D upbaseVec)const;//真上の向きのブロックの大きさを定める基準ベクトルから、ステージの中心からの相対位置の座標を出す
+	int GetX()const{
+		return x;
+	}
+	int GetY()const{
+		return y;
+	}
 
 	//静的関数
 	static PutPos BaseVec(Direction dir);//各方向の単位ベクトルを返す

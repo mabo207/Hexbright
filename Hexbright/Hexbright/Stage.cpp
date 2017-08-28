@@ -26,11 +26,21 @@ Stage::~Stage(){}
 void Stage::Draw(const Vector2D &center)const{
 	//ステージの描画
 	int absmax=m_size-1;
+/*
 	for(int y=-absmax;y<=absmax;y++){
 		int bx=max(0-absmax,y-absmax),ex=min(absmax,y+absmax);
 		for(int x=bx;x<=ex;x++){
 			Vector2D v=center+PutPos(x,y).relativecoordinates(Block::BaseVector);
 			Hexagon(v,Block::BaseVector).Draw(GetColor(196,196,196),198);
+		}
+	}
+//*/
+	for(int y=-absmax;y<=absmax;y++){
+		for(int x=-absmax;x<=absmax;x++){
+			if(JudgeInStage(PutPos(x,y))){
+				Vector2D v=center+PutPos(x,y).relativecoordinates(Block::BaseVector);
+				Hexagon(v,Block::BaseVector).Draw(GetColor(196,196,196),198);
+			}
 		}
 	}
 	//ブロックの描画
@@ -42,6 +52,10 @@ void Stage::Draw(const Vector2D &center)const{
 bool Stage::PutBlock(const PutPos &pos,const std::shared_ptr<Block> &pblock,Vector2D center){
 	pblock.get()->Move(center+pos.relativecoordinates(Block::BaseVector));
 	return m_blocks.insert(BlockInfo(pos,pblock)).second;
+}
+
+bool Stage::JudgeInStage(const PutPos &pos)const{
+	return (std::abs(pos.GetX())<m_size && std::abs(pos.GetY())<m_size && std::abs(pos.GetY()-pos.GetX())<m_size);
 }
 
 std::shared_ptr<const Block> Stage::GetBlock(const PutPos &pos)const{

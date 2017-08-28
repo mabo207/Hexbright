@@ -143,28 +143,22 @@ void PuzzleSystem::Update(){
 		m_stage.EraseBlocks(m_flowCircle.blockPosVec);
 	}
 	//カーソルの更新
+	PutPos cursorpal=m_cursor;//一時的に移動先を格納する。
 	if(keyboard_get(KEY_INPUT_D)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::RIGHT);
-		//発火点の更新
-		TurnBootVertex(0);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::RIGHT);
 	}else if(keyboard_get(KEY_INPUT_X)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::RIGHTDOWN);
-		//発火点の更新
-		TurnBootVertex(0);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::RIGHTDOWN);
 	}else if(keyboard_get(KEY_INPUT_Z)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::LEFTDOWN);
-		//発火点の更新
-		TurnBootVertex(0);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::LEFTDOWN);
 	}else if(keyboard_get(KEY_INPUT_A)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::LEFT);
-		//発火点の更新
-		TurnBootVertex(0);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::LEFT);
 	}else if(keyboard_get(KEY_INPUT_W)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::LEFTUP);
-		//発火点の更新
-		TurnBootVertex(0);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::LEFTUP);
 	}else if(keyboard_get(KEY_INPUT_E)%15==1){
-		m_cursor=m_cursor+PutPos::BaseVec(PutPos::RIGHTUP);
+		cursorpal=cursorpal+PutPos::BaseVec(PutPos::RIGHTUP);
+	}
+	if(m_stage.JudgeInStage(cursorpal)){
+		m_cursor=cursorpal;
 		//発火点の更新
 		TurnBootVertex(0);
 	}
