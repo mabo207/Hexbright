@@ -15,6 +15,7 @@ PuzzleSystem::PuzzleSystem()
 	:m_stage(5),m_cursor(0,0),m_bootVertex(0)
 	,m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center)
 	,m_score(),m_flame(0)
+	,m_timeFont(CreateFontToHandle("Eras Bold ITC",32,4,-1))
 {
 	//èâä˙âª
 	for(int i=0;i<5;i++){
@@ -22,7 +23,9 @@ PuzzleSystem::PuzzleSystem()
 	}
 }
 
-PuzzleSystem::~PuzzleSystem(){}
+PuzzleSystem::~PuzzleSystem(){
+	DeleteFontToHandle(m_timeFont);
+}
 
 void PuzzleSystem::AddSavedBlock(){
 	//0Å`5ÇÉâÉìÉ_ÉÄÇ…ï¿Ç◊ÇÈ
@@ -215,8 +218,11 @@ void PuzzleSystem::Draw()const{
 	m_flowCircle.Draw(m_center);
 	//ó≠Ç‹Ç¡ÇƒÇ¢ÇÈÉuÉçÉbÉNåQÇÃï`âÊ
 	for(size_t i=0;i<m_savedBlock.size();i++){
-		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-50,(float)(aPuzzleSize.y*(i/6.0+1/4.0))));
+		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-80,(float)(aPuzzleSize.y*(i/7.0+1/5.0))));
 	}
 	//ìæì_ÇÃï`âÊ
 	m_score.Draw(m_center);
+	//écÇËéûä‘ÇÃï`âÊ
+	DrawCircle((int)aPuzzleSize.x,(int)aPuzzleSize.y,(int)aPuzzleSize.y*1/5,GetColor(255,255,255),FALSE,2);//òg
+	DrawStringRightJustifiedToHandle((int)aPuzzleSize.x,(int)aPuzzleSize.y-GetFontSizeToHandle(m_timeFont),to_string_0d(180-m_flame/60,3),GetColor(255,255,255),m_timeFont);
 }

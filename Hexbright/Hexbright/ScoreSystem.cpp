@@ -51,7 +51,7 @@ std::shared_ptr<ScoreSystem::BlockScorePos> ScoreSystem::BonusScorePos::BonusSco
 //-----------------------------ScoreSystem-----------------------------
 int ScoreSystem::CalBlockScore(std::shared_ptr<const Block> pb,int count)const{
 	//現状とりあえずこうしておく。実際はキャラクターの性質によって変化をつけるし、スコアアタックかVSモードかの引数もしっかり与える。
-	return pb->GetBaseScore(1)*count;
+	return pb->GetBaseScore(1)*(3+count)/4;//basepoint*(3/4+count/4)
 }
 
 ScoreSystem::ScoreSystem()
@@ -110,10 +110,10 @@ void ScoreSystem::AddBlockScore(const std::vector<PutPos> &blockPosVec,const Sta
 		std::shared_ptr<const Block> pb=stage.GetBlock(*it);//pDelBlockの1個前のブロック
 		if(pDelBlock->JudgeConnect(*pb.get())){
 			//連鎖条件を満たしている場合
-			m_combo++;
+			m_combo+=2;
 		}else{
 			//連鎖条件を満たしていない
-			m_combo=1;
+			m_combo+=1;
 		}
 	}else{
 		//始めの１つめは必ず1コンボ目にする必要がある

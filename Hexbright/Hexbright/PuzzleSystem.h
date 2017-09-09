@@ -29,6 +29,12 @@ protected:
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
 	int m_flame;//現在のスタートからのフレーム数
 
+	//パズル全体の管理クラスが持っておくべきかもな変数
+	//時間計測を行うための変数(ポーズや通信ラグにも対応できる仕様)
+
+	//描画用変数
+	int m_timeFont;//時間表示用のフォントハンドル(パズル全体の管理クラスが持っておくべきかも)
+
 	//関数
 protected:
 	void AddSavedBlock();//ブロックを一つ貯める
@@ -38,23 +44,6 @@ public:
 	PuzzleSystem();
 	~PuzzleSystem();
 
-	/*//ポインタを返す
-	Stage *GetStage(){
-		return &m_stage;
-	}
-	PutPos *GetCursor(){
-		return &m_cursor;
-	}
-	Vector2D *GetVector2D(){
-		return &m_center;
-	}
-	FlowCircle *GetFlowCircle(){
-		return &m_flowCircle;
-	}
-	std::vector<std::shared_ptr<Block>> *GetSavedBlock(){
-		return &m_savedBlock;
-	}
-	//*/
 	void Update();//毎フレーム呼び出して更新する
 	void Draw()const;
 };
