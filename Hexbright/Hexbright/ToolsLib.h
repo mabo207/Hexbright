@@ -239,7 +239,27 @@ public:
 	int GetReducingSizeY()const;
 };
 
+//フレームを数えるためのクラス
+class Timer{
+	//定数
+protected:
+	const int fps;//Flame per Second。1以上の値が入る。
 
+	//変数
+protected:
+	int counter;//フレーム数を数える。Updateのたびに1増えるだけ。
+	int startTimer,endTimer;//比較対象。timerまで数える、という場合が殆ど。
+
+	//関数
+public:
+	Timer(int i_fps);
+	~Timer();
+	int GetProcessCounter(bool secondFlag)const;//startTimerから数えた経過時間を返す。flame単位か秒単位で返すか選べる。
+	int GetLeftCounter(bool secondFlag)const;//endTimerまで残りどのくらいあるかを返す。flame単位か秒単位で返すか選べる。
+	bool JudgeEnd()const;//counterがendTimerを超えたかどうかを判定する
+	bool SetTimer(int timeLength,bool secondFlag);//タイマーの設定をする。flame単位か秒単位で設定するか選べる。
+	void Update();
+};
 
 #endif // !DEF_TOOLSLIB_H
 #pragma once

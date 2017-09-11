@@ -31,7 +31,7 @@ protected:
 protected:
 	std::shared_ptr<PuzzleSystem> m_puzzle;//動かすパズルは１つだけ
 	Phase::Kind m_phase;//現在のゲーム段階
-	int m_timer1,m_timer2;//タイマー
+	//int m_timer1,m_timer2;//タイマー
 
 	//関数
 protected:
