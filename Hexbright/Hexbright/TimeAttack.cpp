@@ -51,7 +51,7 @@ int TimeAttack::VCalculate(){
 		break;
 	case(Phase::GAMEEND):
 		//if(m_timer1>=m_timer2){
-		if(m_timer.JudgeEnd()){
+		if(m_timer.JudgeEnd() && keyboard_get(KEY_INPUT_NUMPADENTER)==1){
 			//ゲーム終了画面を閉じる時間になったら
 			//m_phase=Phase::RESULT;//本来こっち
 			return -1;//一応ソフトウェアを終了させる

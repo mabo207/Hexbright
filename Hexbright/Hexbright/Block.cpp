@@ -53,8 +53,8 @@ bool Block::Conductor::JudgeExist()const{
 }
 
 //-------------------Block-------------------
-const int Block::lineThick=3;
-const unsigned int Block::lineColor=DxLib::GetColor(127,127,127);
+const int Block::lineThick=5;
+const unsigned int Block::lineColor=DxLib::GetColor(64,64,64);
 const Vector2D Block::BaseVector=Vector2D(0,-48);
 
 Block::Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors,Feature i_feature)

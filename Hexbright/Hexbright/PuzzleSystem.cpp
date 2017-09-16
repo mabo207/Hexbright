@@ -213,7 +213,8 @@ void PuzzleSystem::Draw()const{
 	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255),(-(m_flame%60-30)*(m_flame%60-30)+900)*255/900);
 	//”­‰Î“_‚Ì•`‰æ
 	v=Block::GetVertexPos(m_bootVertex,v);
-	DrawCircle((int)v.x,(int)v.y,3,GetColor(128,128,255),TRUE);
+	DrawCircle((int)v.x,(int)v.y,6,GetColor(64,64,128),TRUE);
+	DrawCircle((int)v.x,(int)v.y,3,GetColor(196,224,255),TRUE);
 	//ŠÛ‚Ì•`‰æ
 	m_flowCircle.Draw(m_center);
 	//—­‚Ü‚Á‚Ä‚¢‚éƒuƒƒbƒNŒQ‚Ì•`‰æ
