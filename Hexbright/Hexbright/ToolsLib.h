@@ -259,6 +259,7 @@ public:
 	bool JudgeEnd()const;//counterがendTimerを超えたかどうかを判定する
 	bool SetTimer(int timeLength,bool secondFlag);//タイマーの設定をする。flame単位か秒単位で設定するか選べる。
 	void Update();
+	void EnforceEnd();
 };
 
 #endif // !DEF_TOOLSLIB_H

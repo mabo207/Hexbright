@@ -495,3 +495,7 @@ bool Timer::SetTimer(int timeLength,bool secondFlag){
 void Timer::Update(){
 	counter++;
 }
+
+void Timer::EnforceEnd(){
+	counter=endTimer;
+}

@@ -224,3 +224,7 @@ void PuzzleSystem::Draw()const{
 	m_score.Draw(m_center);
 	
 }
+
+int PuzzleSystem::GetScore()const{
+	return m_score.GetScore();
+}
