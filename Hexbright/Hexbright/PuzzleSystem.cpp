@@ -9,7 +9,7 @@
 #include"ConnectBlock.h"
 
 //-----------------------PuzzleSystem-----------------------
-const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(800,600);
+const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(1280,720);
 
 PuzzleSystem::PuzzleSystem()
 	:m_stage(5),m_cursor(0,0),m_bootVertex(0)

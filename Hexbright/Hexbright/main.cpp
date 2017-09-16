@@ -3,16 +3,14 @@
 #include"input.h"
 #include"ToolsLib.h"
 
-#include<time.h>
-#include"NormalBlock.h"
-#include"Stage.h"
 #include"TimeAttack.h"
 #include<memory>
+#include"PuzzleSystem.h"
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//dxライブラリの初期化
-	//画面モードの設定
-	SetGraphMode(800,600,16);
+	//画面モードの設定(一応こんな感じ)
+	SetGraphMode((int)PuzzleSystem::aPuzzleSize.x,(int)PuzzleSystem::aPuzzleSize.y,16);
 	//タイトルメニュー文字
 	SetMainWindowText("Hexbright");
 	//ウインドウサイズの変更

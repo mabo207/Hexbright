@@ -47,6 +47,7 @@ Temporary Items
 .apdisk
 
 #vs temporary files
+/.vs
 /Hexbright/Debug
 /Hexbright/ipch
 /Hexbright/Release
@@ -56,7 +57,7 @@ Temporary Items
 /Hexbright/Hexbright/Debug
 /Hexbright/Hexbright/Release
 /Hexbright/Hexbright/Log.txt
-/Hexbright/shintyoku
+/Hexbright/shinntyoku
 
 
 #exclude by file type
