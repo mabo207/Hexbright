@@ -3,7 +3,11 @@
 #include"input.h"
 #include"ToolsLib.h"
 
-#include"Hexagon.h"
+#include<time.h>
+#include"NormalBlock.h"
+#include"Stage.h"
+#include"TimeAttack.h"
+#include<memory>
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//dxライブラリの初期化
@@ -32,46 +36,21 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//入力機構の初期化
 	InitInputControler();
 
-	Vector2D c=Vector2D(400,300),r=Vector2D(-40,0);
-	Hexagon bh(c,Hexagon(c+r,r).GetPoints().GetPoint(5)-c);
-
-	Hexagon h[7]={
-		Hexagon(bh.GetPoints().GetPoint(0),r)
-		,Hexagon(bh.GetPoints().GetPoint(1),r)
-		,Hexagon(bh.GetPoints().GetPoint(5),r)
-		,Hexagon(c,r)
-		,Hexagon(bh.GetPoints().GetPoint(2),r)
-		,Hexagon(bh.GetPoints().GetPoint(4),r)
-		,Hexagon(bh.GetPoints().GetPoint(3),r)
-	};
-
-	unsigned int col[7]={
-		GetColor(255,0,0)
-		,GetColor(255,255,0)
-		,GetColor(0,255,0)
-		,GetColor(0,255,255)
-		,GetColor(0,0,255)
-		,GetColor(255,0,255)
-		,GetColor(255,255,255)
-	};
-
+	
+	std::shared_ptr<VGameSystem> game(new TimeAttack());
+	SRand(123456);
+	
 	//アプリケーション動作
 	while(ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 		//ゲーム本体
 		//キー情報更新
 		input_update();
 		//描画
-		int flag=FALSE;
-		if(keyboard_get(KEY_INPUT_NUMPADENTER)>0){
-			flag=TRUE;
-		}
-		for(int i=0;i<7;i++){
-			h[i].Draw(col[i],flag);
-		}
+		game->VDraw();
 		//計算処理
-		int index=-keyboard_get(KEY_INPUT_BACK);
+		int index=game->VCalculate();
 		//終了検出
-		if(index<0){
+		if(index<0 || keyboard_get(KEY_INPUT_ESCAPE)>0){
 			break;
 		}
 	}

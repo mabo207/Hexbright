@@ -45,9 +45,19 @@ public:
 	}
 
 	//機能
-	void Draw(unsigned int color,int fillFlag)const;//描画
-	void Draw(unsigned int color,int fillFlag,unsigned int incolor)const;//描画
+	void Draw(unsigned int color,int alpha)const;//描画(中と辺は同じ色系統、alphaは中の透明度)
+	void Draw(unsigned int color,int alpha,unsigned int incolor)const;//描画(中と辺は個別に色を指示、alphaは中の透明度)
+	void Draw(Vector2D pos,unsigned int color,int alpha)const;//描画(中と辺は同じ色系統、alphaは中の透明度)
+	void Draw(Vector2D pos,unsigned int color,int alpha,unsigned int incolor)const;//描画(中と辺は個別に色を指示、alphaは中の透明度)
 	Vertexs GetPoints()const;//頂点６つの座標を求める
+	Vertexs GetPoints(Vector2D pos)const;//posを中心とした時の頂点６つの座標を求める
+	void Move(Vector2D pos){
+		//posに中心点を移す
+		m_center=pos;
+	}
+
+	//静的関数
+	static Vertexs GetPoints(Vector2D center,Vector2D baseVec);
 };
 
 

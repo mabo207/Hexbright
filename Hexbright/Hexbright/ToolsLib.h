@@ -43,8 +43,13 @@ public:
 	}
 	Vector2D norm()const {
 		float siz = size();
-		return Vector2D(x / siz, y / siz);
+		if(siz!=0.0){
+			return Vector2D(x / siz,y / siz);
+		}
+		return Vector2D(0.0,0.0);
 	}
+	//角度を返す(単位はラジアン)
+	double GetRadian()const;
 	//時計回りに回転させた時のベクトルを返す(角度の単位はラジアン)
 	Vector2D turn(double radian)const;
 };
@@ -75,8 +80,14 @@ int DrawExtendGraphSizeAssign(int x,int y,int dx,int dy,int GrHandle,int TransFl
 //中央の描画位置を指定した文字列描画
 int DrawStringCenterBaseToHandle(const int centerx,const int centery,const char *str,unsigned int color,int fonthandle,bool yposcenterbaseflag,unsigned int EdgeColor=0U,int VerticalFlag=0);
 
-//位置を色々な式で管理するクラス
-class PositionControl{
+//右寄せの文字列描画
+int DrawStringRightJustifiedToHandle(int x,int y,const std::string &str,int color,int handle,unsigned int edgeColor=0U,int verticalFlag=0);
+
+//int→string変換の際に、0詰めを行うようにする
+std::string to_string_0d(int pal,unsigned int length);
+
+//数値の変化を様々な式で管理するクラス
+class Easing{
 	//列挙体
 public:
 	enum TYPE{
@@ -91,39 +102,27 @@ public:
 	//変数
 protected:
 	int flame,maxflame;//フレーム数の管理
-	int x,startx,endx;//x座標の管理
-	int y,starty,endy;//y座標の管理
-	TYPE type;//位置変更の形状
-	FUNCTION function;//位置変更関数
+	int x,startx,endx;//数値xの管理
+	TYPE type;//変化形式
+	FUNCTION function;//使用する関数
 	double degree;//変化度合い
-				  //関数
+	//関数
 public:
-	PositionControl(int i_x=0,int i_y=0,int i_maxflame=0,TYPE i_type=TYPE_IN,FUNCTION i_function=FUNCTION_LINER,double i_degree=0.0)
-		:flame(0),maxflame(i_maxflame),x(i_x),startx(i_x),endx(i_x)
-		,y(i_y),starty(i_y),endy(i_y),type(i_type),function(i_function),degree(i_degree){}//位置の初期化（最初のみ）
-	virtual ~PositionControl(){}//デストラクタ
+	Easing(int i_x=0,int i_maxflame=0,TYPE i_type=TYPE_IN,FUNCTION i_function=FUNCTION_LINER,double i_degree=0.0);
+	virtual ~Easing(){}//デストラクタ
 	virtual void Update();//位置更新
-	void SetTarget(int i_endx,int i_endy,bool initflame);//目標位置を決める
+	void SetTarget(int i_endx,bool initflame);//目標位置を決める
 	void EnforceEnd();//強制的に動作後にする
 	void Retry();//動作をリセットしてやり直す
-	void Retry(int i_startx,int i_starty);//動作をリセットしてやり直す。スタート位置も変える
+	void Retry(int i_startx);//動作をリセットしてやり直す。スタート位置も変える
 	int GetX()const{
 		return x;
-	}
-	int GetY()const{
-		return y;
 	}
 	int GetstartX()const{
 		return startx;
 	}
-	int GetstartY()const{
-		return starty;
-	}
 	int GetendX()const{
 		return endx;
-	}
-	int GetendY()const{
-		return endy;
 	}
 	int GetFlame()const{
 		return flame;
@@ -144,21 +143,64 @@ public:
 	virtual bool GetEndFlag()const;//動作が終了しているかを判定する
 };
 
-//速度制御によって速さを指定して真っ直ぐ進む
-class PositionControlSpeeding:public PositionControl{
+//位置を色々な式で管理するクラス
+class PositionControl{
 	//列挙体
 public:
 	//変数
 protected:
-	//max_flameは更新処理に用いられなくなる
-
+	Easing x,y;
 	//関数
 public:
-	PositionControlSpeeding(int i_x=0,int i_y=0,int i_maxflame=0,TYPE i_type=TYPE_IN,FUNCTION i_function=FUNCTION_LINER,double i_degree=1.0);
-	~PositionControlSpeeding(){}//デストラクタ
-	void Update();//位置更新
-	int GetMaxFlame()const;
-	bool GetEndFlag()const;
+	PositionControl(int i_x=0,int i_y=0,int i_maxflame=0,Easing::TYPE i_type=Easing::TYPE_IN,Easing::FUNCTION i_function=Easing::FUNCTION_LINER,double i_degree=0.0)
+		:x(i_x,i_maxflame,i_type,i_function,i_degree),y(i_y,i_maxflame,i_type,i_function,i_degree){}//位置の初期化（最初のみ）
+	virtual ~PositionControl(){}//デストラクタ
+	virtual void Update();//位置更新
+	void SetTarget(int i_endx,int i_endy,bool initflame);//目標位置を決める
+	void EnforceEnd();//強制的に動作後にする
+	void Retry();//動作をリセットしてやり直す
+	void Retry(int i_startx,int i_starty);//動作をリセットしてやり直す。スタート位置も変える
+	Easing GetEasingX()const{
+		return x;
+	}
+	Easing GetEasingY()const{
+		return y;
+	}
+	int GetX()const{
+		return x.GetX();
+	}
+	int GetstartX()const{
+		return x.GetstartX();
+	}
+	int GetendX()const{
+		return x.GetendX();
+	}
+	int GetY()const{
+		return y.GetX();
+	}
+	int GetstartY()const{
+		return y.GetstartX();
+	}
+	int GetendY()const{
+		return y.GetendX();
+	}
+	int GetFlame()const{
+		return x.GetFlame();
+	}
+	virtual int GetMaxFlame()const{
+		return x.GetMaxFlame();
+	}
+	Easing::FUNCTION GetFunction()const{
+		return x.GetFunction();
+	}
+	Easing::TYPE GetType()const{
+		return x.GetType();
+	}
+	double GetDegree()const{
+		return x.GetDegree();
+	}
+	void SetMaxFlame(int flame,bool targetinitflag);
+	virtual bool GetEndFlag()const;//動作が終了しているかを判定する
 };
 
 //大きさ調整しつつ並べて表示する位置を計算するクラス
@@ -197,7 +239,28 @@ public:
 	int GetReducingSizeY()const;
 };
 
+//フレームを数えるためのクラス
+class Timer{
+	//定数
+protected:
+	const int fps;//Flame per Second。1以上の値が入る。
 
+	//変数
+protected:
+	int counter;//フレーム数を数える。Updateのたびに1増えるだけ。
+	int startTimer,endTimer;//比較対象。timerまで数える、という場合が殆ど。
+
+	//関数
+public:
+	Timer(int i_fps);
+	~Timer();
+	int GetProcessCounter(bool secondFlag)const;//startTimerから数えた経過時間を返す。flame単位か秒単位で返すか選べる。
+	int GetLeftCounter(bool secondFlag)const;//endTimerまで残りどのくらいあるかを返す。flame単位か秒単位で返すか選べる。
+	bool JudgeEnd()const;//counterがendTimerを超えたかどうかを判定する
+	bool SetTimer(int timeLength,bool secondFlag);//タイマーの設定をする。flame単位か秒単位で設定するか選べる。
+	void Update();
+	void EnforceEnd();
+};
 
 #endif // !DEF_TOOLSLIB_H
 #pragma once

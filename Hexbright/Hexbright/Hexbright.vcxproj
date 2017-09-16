@@ -119,16 +119,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackBlock.cpp" />
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="ConnectBlock.cpp" />
+    <ClCompile Include="FlowCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
+    <ClCompile Include="HealBlock.cpp" />
     <ClCompile Include="Hexagon.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NormalBlock.cpp" />
+    <ClCompile Include="PutPos.cpp" />
+    <ClCompile Include="PuzzleSystem.cpp" />
+    <ClCompile Include="ScoreSystem.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
     <ClCompile Include="ToolsLib.cpp" />
+    <ClCompile Include="VGameSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackBlock.h" />
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="ConnectBlock.h" />
+    <ClInclude Include="Flowcircle.h" />
+    <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="VGameSystem.h" />
     <ClInclude Include="GraphicControl.h" />
+    <ClInclude Include="HealBlock.h" />
     <ClInclude Include="Hexagon.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="NormalBlock.h" />
+    <ClInclude Include="PutPos.h" />
+    <ClInclude Include="PuzzleSystem.h" />
+    <ClInclude Include="ScoreSystem.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="ToolsLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,9 +6,13 @@
 
 
 //Vector2Dについての関数
+double Vector2D::GetRadian()const{
+	return std::atan2((double)y,(double)x);
+}
+
 Vector2D Vector2D::turn(double radian)const{
 	float cos=(float)(std::cos(radian)),sin=(float)(std::sin(radian));
-	return Vector2D(x*cos+y*sin,-x*sin+y*cos);	
+	return Vector2D(x*cos-y*sin,x*sin+y*cos);	
 }
 
 Vector2D GetMousePointVector2D(){
@@ -197,20 +201,38 @@ int DrawStringCenterBaseToHandle(const int centerx,const int centery,const char 
 	}
 }
 
-//位置を色々な式で管理するクラス
-//---PositionControl---
-void PositionControl::SetTarget(int i_endx,int i_endy,bool initflame){
+//右揃えの文字列描画
+int DrawStringRightJustifiedToHandle(int x,int y,const std::string &str,int color,int handle,unsigned int edgeColor,int verticalFlag){
+	const char *const pc=str.c_str();
+	int dx=GetDrawStringWidthToHandle(pc,str.size(),handle,verticalFlag);
+	return DrawStringToHandle(x-dx,y,pc,color,handle,edgeColor,verticalFlag);
+}
+
+//int→string変換の際に、0詰めを行うようにする
+std::string to_string_0d(int pal,unsigned int length){
+	std::string str=std::to_string(pal);
+	str.reserve(length);
+	for(unsigned int i=str.size();i<length;i++){
+		str="0"+str;
+	}
+	return str;
+}
+
+//数値変化を様々な式で管理するクラス
+//---Easing---
+Easing::Easing(int i_x,int i_maxflame,TYPE i_type,FUNCTION i_function,double i_degree)
+	:flame(0),maxflame(i_maxflame),x(i_x),startx(i_x),endx(i_x),type(i_type),function(i_function),degree(i_degree){}
+
+void Easing::SetTarget(int i_endx,bool initflame){
 	startx=x;
-	starty=y;
 	if(initflame){
 		//initflameがtrueの時のみflameを0に
 		flame=0;
 	}
 	endx=i_endx;
-	endy=i_endy;
 }
 
-void PositionControl::Update(){
+void Easing::Update(){
 	double ft;//増加割合
 	if(!GetEndFlag()){
 		if(maxflame>0){
@@ -236,63 +258,76 @@ void PositionControl::Update(){
 			ft=1.0;
 		}
 		x=startx+(int)((endx-startx)*ft);
-		y=starty+(int)((endy-starty)*ft);
 		flame++;
 	} else{
 		x=endx;
-		y=endy;
 	}
 }
 
-void PositionControl::EnforceEnd(){
+void Easing::EnforceEnd(){
 	flame=maxflame;
 	Update();
 }
 
-void PositionControl::Retry(){
+void Easing::Retry(){
 	x=startx;
-	y=starty;
 	flame=0;
 }
 
-void PositionControl::Retry(int i_startx,int i_starty){
+void Easing::Retry(int i_startx){
 	startx=i_startx;
-	starty=i_starty;
 	Retry();
 }
 
-void PositionControl::SetMaxFlame(int flame,bool targetinitflag){
+void Easing::SetMaxFlame(int flame,bool targetinitflag){
 	maxflame=flame;
 	if(targetinitflag){
-		Retry(x,y);
-	} else{
+		Retry(x);
+	}else{
 		flame=min(flame,maxflame);
 	}
 }
 
-bool PositionControl::GetEndFlag()const{
+bool Easing::GetEndFlag()const{
 	return (flame>=maxflame);
 }
 
-//---PositionControlSpeeding---
-PositionControlSpeeding::PositionControlSpeeding(int i_x,int i_y,int i_maxflame,TYPE i_type,FUNCTION i_function,double i_degree)
-	:PositionControl(i_x,i_y,i_maxflame,i_type,i_function,i_degree){}
 
-void PositionControlSpeeding::Update(){
-	if(!GetEndFlag()){
-
-	} else{
-		x=endx;
-		y=endy;
-	}
+//位置を色々な式で管理するクラス
+//---PositionControl---
+void PositionControl::SetTarget(int i_endx,int i_endy,bool initflame){
+	x.SetTarget(i_endx,initflame);
+	y.SetTarget(i_endy,initflame);
 }
 
-int PositionControlSpeeding::GetMaxFlame()const{
-	return 0;
+void PositionControl::Update(){
+	x.Update();
+	y.Update();
 }
 
-bool PositionControlSpeeding::GetEndFlag()const{
-	return (x==endx && y==endy);
+void PositionControl::EnforceEnd(){
+	x.EnforceEnd();
+	y.EnforceEnd();
+}
+
+void PositionControl::Retry(){
+	x.Retry();
+	y.Retry();
+}
+
+void PositionControl::Retry(int i_startx,int i_starty){
+	x.Retry(i_startx);
+	y.Retry(i_starty);
+}
+
+void PositionControl::SetMaxFlame(int flame,bool targetinitflag){
+	x.SetMaxFlame(flame,targetinitflag);
+	y.SetMaxFlame(flame,targetinitflag);
+}
+
+bool PositionControl::GetEndFlag()const{
+	//xもyも同じフレーム管理なので、yのGetEndFlagもxのGetEndFlagも同じ
+	return x.GetEndFlag();
 }
 
 //大きさ調整しつつ並べて表示する位置を計算するクラス
@@ -415,3 +450,52 @@ int LiningupScalingMechanism::GetReducingSizeY()const{
 	return size.GetendY()+size.GetstartY()-size.GetY();
 }
 
+//フレーム数を数えるためのクラスTimer
+Timer::Timer(int i_fps)
+	:fps(max(1,i_fps)),counter(0),startTimer(0),endTimer(0){}
+
+Timer::~Timer(){}
+
+int Timer::GetProcessCounter(bool secondFlag)const{
+	if(secondFlag){
+		//秒単位で返す
+		return (counter-startTimer)/fps;
+	}else{
+		//flame単位で返す
+		return counter-startTimer;
+	}
+}
+
+int Timer::GetLeftCounter(bool secondFlag)const{
+	if(secondFlag){
+		//秒単位で返す
+		return (endTimer-startTimer)/fps-GetProcessCounter(true);
+	}else{
+		//flame単位で返す
+		return endTimer-counter;
+	}
+}
+
+bool Timer::JudgeEnd()const{
+	return counter>=endTimer;
+}
+
+bool Timer::SetTimer(int timeLength,bool secondFlag){
+	startTimer=counter;
+	if(secondFlag){
+		//秒単位で設定
+		endTimer=startTimer+timeLength*fps;
+	} else{
+		//flame単位で設定
+		endTimer=startTimer+timeLength;
+	}
+	return true;//失敗しないのでtrueを返す。
+}
+
+void Timer::Update(){
+	counter++;
+}
+
+void Timer::EnforceEnd(){
+	counter=endTimer;
+}

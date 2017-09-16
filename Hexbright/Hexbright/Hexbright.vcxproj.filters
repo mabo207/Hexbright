@@ -19,11 +19,29 @@
     <Filter Include="ヘッダー ファイル\Tools">
       <UniqueIdentifier>{8c91a40f-aa0d-4e3e-b6e8-53f7edd047b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\GameObject">
+    <Filter Include="ヘッダー ファイル\PuzzleGame">
+      <UniqueIdentifier>{44dfcea7-f2a3-4862-ae18-69b65e5e26a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PuzzleGame\GameObject">
       <UniqueIdentifier>{540dfbda-50c1-4f68-a000-50d13d69dd3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\GameObject">
+    <Filter Include="ヘッダー ファイル\PuzzleGame\GameObject\Block">
+      <UniqueIdentifier>{fbfd6a58-a8a4-41d3-8cf1-f47bc90cf7a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame">
+      <UniqueIdentifier>{3374a729-9da9-497e-a793-d1b796d4eb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame\GameObject">
       <UniqueIdentifier>{8dbdbb9e-d7e6-4b63-9d02-b18e54e90a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame\GameObject\Block">
+      <UniqueIdentifier>{4ace7089-4499-4687-b415-6dfe890aacfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PuzzleGame\GameObject\GameSystem">
+      <UniqueIdentifier>{55c36a9d-f140-42ea-a5fc-22ec416c8651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame\GameObject\GameSystem">
+      <UniqueIdentifier>{9637490b-bba6-4064-8b1f-05cac5f0d9d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +58,43 @@
       <Filter>ソース ファイル\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Hexagon.cpp">
-      <Filter>ソース ファイル\GameObject</Filter>
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PutPos.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PuzzleSystem.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowCircle.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSystem.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="HealBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectBlock.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="VGameSystem.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeAttack.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\GameSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +108,43 @@
       <Filter>ヘッダー ファイル\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Hexagon.h">
-      <Filter>ヘッダー ファイル\GameObject</Filter>
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PutPos.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PuzzleSystem.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Flowcircle.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSystem.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="HealBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectBlock.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="VGameSystem.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAttack.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\GameSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
