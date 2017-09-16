@@ -96,11 +96,7 @@ void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorCol
 
 void Block::Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{
 	//³˜ZŠpŒ`‚Ì•`‰æ
-	m_shape.get()->Draw(pos,inColor,alpha);
-	if(vertexColor!=inColor){
-		//•Ó‚ÌF‚ğ•ÏX‚µ‚½‚¢ê‡‚Ì‚İ•Ó‚¾‚¯”í‚¹‚Ä•`‰æ
-		m_shape.get()->Draw(pos,vertexColor,0);
-	}
+	m_shape.get()->Draw(pos,inColor,alpha,vertexColor,3);
 	//“±ü‚Ì•`‰æ
 	int mode,pal;
 	GetDrawBlendMode(&mode,&pal);
