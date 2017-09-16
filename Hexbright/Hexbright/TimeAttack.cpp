@@ -2,6 +2,8 @@
 #include"TimeAttack.h"
 
 #include"input.h"
+#include"FileRead.h"
+#include<fstream>
 
 //-------------------TimeAttack-------------------
 TimeAttack::TimeAttack()
@@ -51,9 +53,24 @@ int TimeAttack::VCalculate(){
 		break;
 	case(Phase::GAMEEND):
 		//if(m_timer1>=m_timer2){
-		if(m_timer.JudgeEnd()){
+		if(m_timer.JudgeEnd() && keyboard_get(KEY_INPUT_NUMPADENTER)==1){
 			//ゲーム終了画面を閉じる時間になったら
 			//m_phase=Phase::RESULT;//本来こっち
+
+			//--------------ランキング書き込み作業(ベタ書き)--------------
+			std::vector<std::vector<std::string>> data=CommaCutRead("ranking.csv");
+			data.push_back(std::vector<std::string>{"guest",std::to_string(m_puzzle->GetScore())});
+			std::ofstream ofs("ranking.csv",ios::trunc);
+			for(std::vector<std::string> &v:data){
+				for(std::string &s:v){
+					ofs<<s<<",";
+				}
+				ofs<<endl;
+			}
+			ofs.close();
+			//--------------ランキング書き込み作業終了--------------
+
+
 			return -1;//一応ソフトウェアを終了させる
 		}
 		break;

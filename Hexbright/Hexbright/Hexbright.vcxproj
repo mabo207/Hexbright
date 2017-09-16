@@ -122,6 +122,8 @@
     <ClCompile Include="AttackBlock.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="ConnectBlock.cpp" />
+    <ClCompile Include="DisplayScore.cpp" />
+    <ClCompile Include="FileRead.cpp" />
     <ClCompile Include="FlowCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
     <ClCompile Include="HealBlock.cpp" />
@@ -134,6 +136,7 @@
     <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TimeAttack.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="ToolsLib.cpp" />
     <ClCompile Include="VGameSystem.cpp" />
   </ItemGroup>
@@ -141,8 +144,12 @@
     <ClInclude Include="AttackBlock.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="ConnectBlock.h" />
+    <ClInclude Include="DisplayRanking.h" />
+    <ClInclude Include="FileRead.h" />
     <ClInclude Include="Flowcircle.h" />
+    <ClInclude Include="picojson.h" />
     <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="VGameSystem.h" />
     <ClInclude Include="GraphicControl.h" />
     <ClInclude Include="HealBlock.h" />

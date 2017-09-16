@@ -1,0 +1,34 @@
+#ifndef DEF_DISPLAYRANKING_H
+#define DEF_DISPLAYRANKING_H
+
+#include<vector>
+#include<string>
+
+class DisplayRanking{
+	//å^ÅEóÒãìëÃ
+	struct ScoreData{
+		std::string name;
+		int score;
+		ScoreData(const std::vector<std::string> &commastr);
+		bool operator<(const ScoreData &otherobj)const;
+	};
+	//íËêî
+	static const int size=48;
+
+	//ïœêî
+protected:
+	int m_adjustY;
+	int m_font;
+	std::vector<ScoreData> m_scoreData;
+
+	//ä÷êî
+public:
+	DisplayRanking();
+	~DisplayRanking();
+	int Calculate();
+	void Draw()const;
+};
+
+#endif // !DEF_DISPLAYRANKING_H
+
+#pragma once
