@@ -210,7 +210,7 @@ void PuzzleSystem::Draw()const{
 	m_stage.Draw(m_center);
 	//カーソルの描画(先頭のブロックを白い辺・導線で表示。中の部分は点滅表示。)
 	Vector2D v=m_center+m_cursor.relativecoordinates(Block::BaseVector);//カーソル描画と発火点描画で用いる
-	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255),(-(m_flame%60-30)*(m_flame%60-30)+900)*255/900);
+	m_savedBlock[0].get()->Draw(v,GetColor(255,255,255),GetColor(255,255,255),max((-(m_flame%60-30)*(m_flame%60-30)+500)*255/500,0));
 	//発火点の描画
 	v=Block::GetVertexPos(m_bootVertex,v);
 	DrawCircle((int)v.x,(int)v.y,6,GetColor(64,64,128),TRUE);
