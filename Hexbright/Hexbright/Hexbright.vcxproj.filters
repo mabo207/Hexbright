@@ -37,6 +37,12 @@
     <Filter Include="ソース ファイル\PuzzleGame\GameObject\Block">
       <UniqueIdentifier>{4ace7089-4499-4687-b415-6dfe890aacfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\PuzzleGame\GameObject\GameSystem">
+      <UniqueIdentifier>{55c36a9d-f140-42ea-a5fc-22ec416c8651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame\GameObject\GameSystem">
+      <UniqueIdentifier>{9637490b-bba6-4064-8b1f-05cac5f0d9d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,6 +90,12 @@
     <ClCompile Include="ConnectBlock.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject\Block</Filter>
     </ClCompile>
+    <ClCompile Include="VGameSystem.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeAttack.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicControl.h">
@@ -127,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="ConnectBlock.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="VGameSystem.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAttack.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\GameSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

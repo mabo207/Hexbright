@@ -6,7 +6,8 @@
 #include<time.h>
 #include"NormalBlock.h"
 #include"Stage.h"
-#include"PuzzleSystem.h"
+#include"TimeAttack.h"
+#include<memory>
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//dxライブラリの初期化
@@ -35,43 +36,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//入力機構の初期化
 	InitInputControler();
 
-	Vector2D c=Vector2D(400,300),r=Vector2D(0,-40);
-	Hexagon bh(c,Hexagon(c+r,r).GetPoints().GetPoint(5)-c);
-
-	unsigned int col[7]={
-		GetColor(255,0,0)
-		,GetColor(255,255,0)
-		,GetColor(0,255,0)
-		,GetColor(0,255,255)
-		,GetColor(0,0,255)
-		,GetColor(255,0,255)
-		,GetColor(255,255,255)
-	};
-
-	Hexagon h[7]={
-		Hexagon(bh.GetPoints().GetPoint(0),r)
-		,Hexagon(bh.GetPoints().GetPoint(1),r)
-		,Hexagon(bh.GetPoints().GetPoint(5),r)
-		,Hexagon(c,r)
-		,Hexagon(bh.GetPoints().GetPoint(2),r)
-		,Hexagon(bh.GetPoints().GetPoint(4),r)
-		,Hexagon(bh.GetPoints().GetPoint(3),r)
-	};
 	
-	std::vector<std::shared_ptr<Block>> b={
-		std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(0),std::vector<Block::Conductor>{Block::Conductor(1,2)}))
-		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(1),std::vector<Block::Conductor>{Block::Conductor(4,2)}))
-		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(5),std::vector<Block::Conductor>{Block::Conductor(0,1),Block::Conductor(2,3)}))
-		,std::shared_ptr<Block>(new NormalBlock(c,std::vector<Block::Conductor>{Block::Conductor(0,5),Block::Conductor(1,2),Block::Conductor(3,4)}))
-		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(2),std::vector<Block::Conductor>{Block::Conductor(3,4)}))
-		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(4),std::vector<Block::Conductor>{Block::Conductor(0,5),Block::Conductor(1,4),Block::Conductor(2,3)}))
-		,std::shared_ptr<Block>(new NormalBlock(bh.GetPoints().GetPoint(3),std::vector<Block::Conductor>{Block::Conductor(2,4),Block::Conductor(1,5)}))
-	};
-
-	
-	Stage st(4);
-
-	PuzzleSystem puzzle;
+	std::shared_ptr<VGameSystem> game(new TimeAttack());
 	SRand(123456);
 	
 	//アプリケーション動作
@@ -80,12 +46,11 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		//キー情報更新
 		input_update();
 		//描画
-		puzzle.Draw();
-		puzzle.Update();
+		game->VDraw();
 		//計算処理
-		int index=-keyboard_get(KEY_INPUT_ESCAPE);
+		int index=game->VCalculate();
 		//終了検出
-		if(index<0){
+		if(index<0 || keyboard_get(KEY_INPUT_ESCAPE)>0){
 			break;
 		}
 	}

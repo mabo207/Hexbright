@@ -450,3 +450,52 @@ int LiningupScalingMechanism::GetReducingSizeY()const{
 	return size.GetendY()+size.GetstartY()-size.GetY();
 }
 
+//フレーム数を数えるためのクラスTimer
+Timer::Timer(int i_fps)
+	:fps(max(1,i_fps)),counter(0),startTimer(0),endTimer(0){}
+
+Timer::~Timer(){}
+
+int Timer::GetProcessCounter(bool secondFlag)const{
+	if(secondFlag){
+		//秒単位で返す
+		return (counter-startTimer)/fps;
+	}else{
+		//flame単位で返す
+		return counter-startTimer;
+	}
+}
+
+int Timer::GetLeftCounter(bool secondFlag)const{
+	if(secondFlag){
+		//秒単位で返す
+		return (endTimer-startTimer)/fps-GetProcessCounter(true);
+	}else{
+		//flame単位で返す
+		return endTimer-counter;
+	}
+}
+
+bool Timer::JudgeEnd()const{
+	return counter>=endTimer;
+}
+
+bool Timer::SetTimer(int timeLength,bool secondFlag){
+	startTimer=counter;
+	if(secondFlag){
+		//秒単位で設定
+		endTimer=startTimer+timeLength*fps;
+	} else{
+		//flame単位で設定
+		endTimer=startTimer+timeLength;
+	}
+	return true;//失敗しないのでtrueを返す。
+}
+
+void Timer::Update(){
+	counter++;
+}
+
+void Timer::EnforceEnd(){
+	counter=endTimer;
+}

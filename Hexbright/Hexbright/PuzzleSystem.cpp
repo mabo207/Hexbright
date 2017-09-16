@@ -222,7 +222,9 @@ void PuzzleSystem::Draw()const{
 	}
 	//“¾“_‚Ì•`‰æ
 	m_score.Draw(m_center);
-	//Žc‚èŽžŠÔ‚Ì•`‰æ
-	DrawCircle((int)aPuzzleSize.x,(int)aPuzzleSize.y,(int)aPuzzleSize.y*1/5,GetColor(255,255,255),FALSE,2);//˜g
-	DrawStringRightJustifiedToHandle((int)aPuzzleSize.x,(int)aPuzzleSize.y-GetFontSizeToHandle(m_timeFont),to_string_0d(180-m_flame/60,3),GetColor(255,255,255),m_timeFont);
+	
+}
+
+int PuzzleSystem::GetScore()const{
+	return m_score.GetScore();
 }

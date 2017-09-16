@@ -46,6 +46,8 @@ public:
 
 	void Update();//毎フレーム呼び出して更新する
 	void Draw()const;
+
+	int GetScore()const;
 };
 
 #endif // !DEF_PUZZLESYSTEM_H

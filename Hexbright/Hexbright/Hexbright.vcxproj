@@ -133,13 +133,17 @@
     <ClCompile Include="PuzzleSystem.cpp" />
     <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
     <ClCompile Include="ToolsLib.cpp" />
+    <ClCompile Include="VGameSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackBlock.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="ConnectBlock.h" />
     <ClInclude Include="Flowcircle.h" />
+    <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="VGameSystem.h" />
     <ClInclude Include="GraphicControl.h" />
     <ClInclude Include="HealBlock.h" />
     <ClInclude Include="Hexagon.h" />
