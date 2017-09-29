@@ -43,6 +43,12 @@
     <Filter Include="ソース ファイル\PuzzleGame\GameObject\GameSystem">
       <UniqueIdentifier>{9637490b-bba6-4064-8b1f-05cac5f0d9d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle">
+      <UniqueIdentifier>{abb66510-de3f-4683-8889-efc3fc53da1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PuzzleGame\GameObject\FlowCircle">
+      <UniqueIdentifier>{a0f6a59a-1a08-4c71-9f54-3fb52bd494b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -75,9 +81,6 @@
     <ClCompile Include="PuzzleSystem.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="FlowCircle.cpp">
-      <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreSystem.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject</Filter>
     </ClCompile>
@@ -95,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="TimeAttack.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowEraseCircle.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowCircle.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +134,6 @@
     <ClInclude Include="PuzzleSystem.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Flowcircle.h">
-      <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreSystem.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject</Filter>
     </ClInclude>
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="TimeAttack.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject\GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowEraseCircle.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowCircle.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,8 +13,8 @@ const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(1280,720);
 
 PuzzleSystem::PuzzleSystem()
 	:m_stage(5),m_cursor(0,0),m_bootVertex(0)
-	,m_center(aPuzzleSize/2),m_flowCircle(PutPos(0,0),m_center)
-	,m_score(),m_flame(0)
+	,m_center(aPuzzleSize/2),m_pScore(new ScoreSystem())
+	,m_flowCircle(PutPos(0,0),m_center,m_pScore),m_flame(0)
 	,m_timeFont(CreateFontToHandle("Eras Bold ITC",32,4,-1))
 {
 	//初期化
@@ -132,14 +132,14 @@ void PuzzleSystem::Update(){
 	//時間の更新
 	m_flame++;
 	//丸の更新
-	m_flowCircle.Update(m_stage,m_cursor,m_center,m_score);
-	m_score.Update();
+	m_flowCircle.Update(m_stage,m_cursor,m_center);
+	m_pScore->Update();
 	if(m_flowCircle.FlowEnd()){
 		//ちょうど導線巡りが終了したら
 		//得点加算処理
-		//m_score.AddBlockScore(m_flowCircle.blockPosVec,m_stage);
+		//m_pScore->AddBlockScore(m_flowCircle.blockPosVec,m_stage);
 		//導線巡り終了時の点数加算。初期化も行う。
-		m_score.AddFlowEndScore(m_flowCircle.CirclingFlag(),m_flowCircle.drawPos);
+		m_pScore->AddFlowEndScore(m_flowCircle.CirclingFlag(),m_flowCircle.drawPos);
 		//妨害送信処理
 
 		//ブロック消去処理
@@ -191,7 +191,7 @@ void PuzzleSystem::Update(){
 		}
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		//起動
-		m_flowCircle.Boot(m_stage,m_cursor,m_bootVertex,m_score);
+		m_flowCircle.Boot(m_stage,m_cursor,m_bootVertex);
 	}
 	//発火点変更入力受付
 	if(keyboard_get(KEY_INPUT_1)%10==1){
@@ -222,10 +222,10 @@ void PuzzleSystem::Draw()const{
 		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-80,(float)(aPuzzleSize.y*(i/7.0+1/5.0))));
 	}
 	//得点の描画
-	m_score.Draw(m_center);
+	m_pScore->Draw(m_center);
 	
 }
 
 int PuzzleSystem::GetScore()const{
-	return m_score.GetScore();
+	return m_pScore->GetScore();
 }

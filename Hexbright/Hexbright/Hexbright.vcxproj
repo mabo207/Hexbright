@@ -123,6 +123,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="ConnectBlock.cpp" />
     <ClCompile Include="FlowCircle.cpp" />
+    <ClCompile Include="FlowEraseCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
     <ClCompile Include="HealBlock.cpp" />
     <ClCompile Include="Hexagon.cpp" />
@@ -141,7 +142,8 @@
     <ClInclude Include="AttackBlock.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="ConnectBlock.h" />
-    <ClInclude Include="Flowcircle.h" />
+    <ClInclude Include="FlowCircle.h" />
+    <ClInclude Include="FlowEraseCircle.h" />
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="VGameSystem.h" />
     <ClInclude Include="GraphicControl.h" />

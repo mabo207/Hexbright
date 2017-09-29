@@ -4,7 +4,7 @@
 #include<vector>
 #include"Stage.h"
 #include"PutPos.h"
-#include"Flowcircle.h"
+#include"FlowEraseCircle.h"
 #include"ScoreSystem.h"
 
 //一人分のパズルシステムを表現する
@@ -24,8 +24,8 @@ protected:
 	PutPos m_cursor;//カーソル
 	int m_bootVertex;//発火点となる辺
 	Vector2D m_center;//中央のマスの描画位置
-	FlowCircle m_flowCircle;//導線を辿る小さな丸
-	ScoreSystem m_score;//スコア
+	std::shared_ptr<ScoreSystem> m_pScore;//スコア
+	FlowEraseCircle m_flowCircle;//導線を辿る小さな丸
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
 	int m_flame;//現在のスタートからのフレーム数
 
