@@ -30,7 +30,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 		drawPos=drawPos+(destination-drawPos).norm()*speed;
 		//目的地到達の判定
 		//目的地と現在位置の距離がspeedの半分以下なら到達とする
-		if((destination-drawPos).size()<speed/2){
+		if((destination-drawPos).size()<=speed/2){
 			//現在いるブロックを変更
 			switch(endVertex){
 			case(0)://右上の辺に進んだ
@@ -63,6 +63,7 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 					if(pb.get()->GetConductor(beginVertex).JudgeExist()){
 						//対応する辺も存在するならば
 						flowflag=true;//導線巡り継続
+						speed*=accele;//加速
 						NextConductorProcess(stage);//導線が変わった時に行う処理
 					}
 				}

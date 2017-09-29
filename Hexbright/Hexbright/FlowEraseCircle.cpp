@@ -20,7 +20,6 @@ FlowEraseCircle::~FlowEraseCircle(){}
 void FlowEraseCircle::NextConductorProcess(const Stage &stage){
 	blockPosVec.push_back(blockPos);//経由したブロックの位置情報を追加
 	m_pScoreSystem->AddBlockScore(blockPosVec,stage);//点数の加算先
-	speed*=accele;
 }
 
 void FlowEraseCircle::Draw(Vector2D center)const{

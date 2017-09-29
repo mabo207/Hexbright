@@ -5,6 +5,7 @@
 #include"Stage.h"
 #include"PutPos.h"
 #include"FlowEraseCircle.h"
+#include"FlowGuideCircle.h"
 #include"ScoreSystem.h"
 
 //一人分のパズルシステムを表現する
@@ -28,6 +29,8 @@ protected:
 	FlowEraseCircle m_flowCircle;//導線を辿る小さな丸
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
 	int m_flame;//現在のスタートからのフレーム数
+
+	FlowGuideCircle m_flowGuideCircle;//導線巡りガイド
 
 	//パズル全体の管理クラスが持っておくべきかもな変数
 	//時間計測を行うための変数(ポーズや通信ラグにも対応できる仕様)

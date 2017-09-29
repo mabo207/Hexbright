@@ -14,7 +14,9 @@ const Vector2D PuzzleSystem::aPuzzleSize=Vector2D(1280,720);
 PuzzleSystem::PuzzleSystem()
 	:m_stage(5),m_cursor(0,0),m_bootVertex(0)
 	,m_center(aPuzzleSize/2),m_pScore(new ScoreSystem())
-	,m_flowCircle(PutPos(0,0),m_center,m_pScore),m_flame(0)
+	,m_flowCircle(PutPos(0,0),m_center,m_pScore)
+	,m_flowGuideCircle(PutPos(0,0),m_center)
+	,m_flame(0)
 	,m_timeFont(CreateFontToHandle("Eras Bold ITC",32,4,-1))
 {
 	//初期化
@@ -131,6 +133,12 @@ void PuzzleSystem::TurnBootVertex(int n){
 void PuzzleSystem::Update(){
 	//時間の更新
 	m_flame++;
+	//導線巡りガイドの更新
+	if(!m_flowGuideCircle.flowflag){
+		m_flowGuideCircle.Boot(m_stage,m_cursor,m_bootVertex);
+	}else{
+		m_flowGuideCircle.Update(m_stage,m_cursor,m_center);
+	}
 	//丸の更新
 	m_flowCircle.Update(m_stage,m_cursor,m_center);
 	m_pScore->Update();
@@ -144,6 +152,8 @@ void PuzzleSystem::Update(){
 
 		//ブロック消去処理
 		m_stage.EraseBlocks(m_flowCircle.blockPosVec);
+		//導線巡りガイドが途方にくれないように処理を終了させる
+		m_flowGuideCircle.flowflag=false;
 	}
 	//カーソルの更新
 	PutPos cursorpal=m_cursor;//一時的に移動先を格納する。
@@ -161,9 +171,12 @@ void PuzzleSystem::Update(){
 		cursorpal=cursorpal+PutPos::BaseVec(PutPos::RIGHTUP);
 	}
 	if(m_stage.JudgeInStage(cursorpal)){
+		bool notmove=(m_cursor==cursorpal);
 		m_cursor=cursorpal;
 		//発火点の更新
 		TurnBootVertex(0);
+
+		m_flowGuideCircle.flowflag=notmove&m_flowGuideCircle.flowflag;
 	}
 	//ブロック回転入力受付(発火点も回転)
 	if(keyboard_get(KEY_INPUT_R)==1){
@@ -171,11 +184,15 @@ void PuzzleSystem::Update(){
 		m_savedBlock[0].get()->Turn(1);
 		//発火点も時計回りに回転
 		TurnBootVertex(1);
+
+		m_flowGuideCircle.flowflag=false;
 	}else if(keyboard_get(KEY_INPUT_Q)==1){
 		//反時計回り回転
 		m_savedBlock[0].get()->Turn(Hexagon::Vertexs::vnum-1);//-1を入れると%の仕様で0->5とならず0->3となる。
 		//発火点も反時計回りに回転
 		TurnBootVertex(-1);
+
+		m_flowGuideCircle.flowflag=false;
 	}
 	//マップ変更入力受付
 	if(keyboard_get(KEY_INPUT_NUMPADENTER)==1){
@@ -188,6 +205,8 @@ void PuzzleSystem::Update(){
 			AddSavedBlock();
 			//発火点の更新
 			TurnBootVertex(0);
+
+			m_flowGuideCircle.flowflag=false;
 		}
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		//起動
@@ -197,9 +216,13 @@ void PuzzleSystem::Update(){
 	if(keyboard_get(KEY_INPUT_1)%10==1){
 		//反時計回り回転
 		TurnBootVertex(-1);
+
+		m_flowGuideCircle.flowflag=false;
 	}else if(keyboard_get(KEY_INPUT_4)%10==1){
 		//時計回り回転
 		TurnBootVertex(1);
+
+		m_flowGuideCircle.flowflag=false;
 	}
 }
 
@@ -217,6 +240,9 @@ void PuzzleSystem::Draw()const{
 	DrawCircle((int)v.x,(int)v.y,3,GetColor(196,224,255),TRUE);
 	//丸の描画
 	m_flowCircle.Draw(m_center);
+	if(m_flowGuideCircle.flowflag){
+		m_flowGuideCircle.Draw(m_center);
+	}
 	//溜まっているブロック群の描画
 	for(size_t i=0;i<m_savedBlock.size();i++){
 		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-80,(float)(aPuzzleSize.y*(i/7.0+1/5.0))));

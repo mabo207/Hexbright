@@ -105,6 +105,9 @@
     <ClCompile Include="FlowCircle.cpp">
       <Filter>ソース ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
     </ClCompile>
+    <ClCompile Include="FlowGuideCircle.cpp">
+      <Filter>ソース ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicControl.h">
@@ -156,6 +159,9 @@
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
     </ClInclude>
     <ClInclude Include="FlowCircle.h">
+      <Filter>ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowGuideCircle.h">
       <Filter>ヘッダー ファイル\PuzzleGame\GameObject\FlowCircle</Filter>
     </ClInclude>
   </ItemGroup>
