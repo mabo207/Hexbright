@@ -43,7 +43,7 @@ public:
 	bool FlowEnd()const;//“±ü’H‚è‚ÌI—¹‚µ‚½‚Ì‚İtrue‚ğ•Ô‚·
 	virtual bool Boot(const Stage &stage,const PutPos &cursor,const int bootVertex);//“±ü„‚è‚ğŠJn‚³‚¹‚é(¸”s‚Ífalse‚ğ•Ô‚·)
 	bool CirclingFlag()const;//“±ü„‚è‚ª‚Pü‚µ‚½‚©‚ğ”»’è‚·‚éŠÖ”
-
+	void EnforceEnd();
 };
 
 #endif // !DEF_FLOWCIRCLE_H

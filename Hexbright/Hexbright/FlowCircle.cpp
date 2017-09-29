@@ -142,3 +142,7 @@ bool FlowCircle::Boot(const Stage &stage,const PutPos &cursor,const int bootVert
 bool FlowCircle::CirclingFlag()const{
 	return (destination-startPos).size()==0;
 }
+
+void FlowCircle::EnforceEnd(){
+	flowflag=false;
+}
