@@ -26,7 +26,7 @@ int TimeAttack::VCalculate(){
 		if(m_timer.JudgeEnd()){
 			//ƒQ[ƒ€‚ªn‚Ü‚éŠÔ‚É‚È‚Á‚½‚ç
 			m_phase=Phase::PLAYING;
-			m_timer.SetTimer(30,true);
+			m_timer.SetTimer(180,true);
 		}
 		break;
 	case(Phase::PLAYING):

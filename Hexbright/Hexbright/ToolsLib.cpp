@@ -210,7 +210,11 @@ int DrawStringRightJustifiedToHandle(int x,int y,const std::string &str,int colo
 
 //int¨string•ÏŠ·‚ÌÛ‚ÉA0‹l‚ß‚ğs‚¤‚æ‚¤‚É‚·‚é
 std::string to_string_0d(int pal,unsigned int length){
-	std::string str=std::to_string(pal);
+	std::string str;
+	if(pal<0){
+		str="-";
+	}
+	str+=std::to_string(pal);
 	str.reserve(length);
 	for(unsigned int i=str.size();i<length;i++){
 		str="0"+str;
