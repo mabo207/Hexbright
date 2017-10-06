@@ -74,7 +74,7 @@ int TimeAttack::VCalculate(){
 			//名前入力が終わったら
 			//--------------ランキング書き込み作業(ベタ書き)--------------
 			std::vector<std::vector<std::string>> data=CommaCutRead("ranking.csv");
-			data.push_back(std::vector<std::string>{"guest",std::to_string(m_puzzle->GetScore())});
+			data.push_back(std::vector<std::string>{(m_nameInputer.GetString().empty()?"guest":m_nameInputer.GetString()),std::to_string(m_puzzle->GetScore())});
 			std::ofstream ofs("ranking.csv",ios::trunc);
 			for(std::vector<std::string> &v:data){
 				for(std::string &s:v){

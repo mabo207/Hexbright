@@ -47,9 +47,9 @@ DisplayRanking::~DisplayRanking(){
 
 int DisplayRanking::Calculate(){
 	if(keyboard_get(KEY_INPUT_UP)>0){
-		m_adjustY-=3;
-	}else if(keyboard_get(KEY_INPUT_DOWN)>0){
 		m_adjustY+=3;
+	}else if(keyboard_get(KEY_INPUT_DOWN)>0){
+		m_adjustY-=3;
 	}else if(keyboard_get(KEY_INPUT_BACK)==1){
 		return -1;
 	}
@@ -59,8 +59,11 @@ int DisplayRanking::Calculate(){
 void DisplayRanking::Draw()const{
 	int dx,dy;
 	GetWindowSize(&dx,&dy);
+	DrawStringCenterBaseToHandle(dx/2,0,"RANKING",GetColor(255,255,125),m_font,false);
+	SetDrawArea(0,size,dx,dy);
 	for(unsigned int i=0;i<m_scoreData.size();i++){
-		DrawStringCenterBaseToHandle(dx/2,m_adjustY+i*(size+10)
-			,(m_scoreData[i].name+"    "+to_string_0d(m_scoreData[i].score,10)).c_str(),GetColor(255,255,255),m_font,false);
+		DrawStringCenterBaseToHandle(dx/2,m_adjustY+(i+1)*(size+10)
+			,(to_string(i+1)+"    "+m_scoreData[i].name+"    "+to_string_0d(m_scoreData[i].score,10)).c_str(),GetColor(255,255,255),m_font,false);
 	}
+	SetDrawArea(0,0,dx,dy);
 }
