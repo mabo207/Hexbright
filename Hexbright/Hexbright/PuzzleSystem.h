@@ -4,7 +4,8 @@
 #include<vector>
 #include"Stage.h"
 #include"PutPos.h"
-#include"Flowcircle.h"
+#include"FlowEraseCircle.h"
+#include"FlowGuideCircle.h"
 #include"ScoreSystem.h"
 
 //一人分のパズルシステムを表現する
@@ -17,6 +18,7 @@ protected:
 
 public:
 	static const Vector2D aPuzzleSize;//１人分の画面の大きさ
+	static const int guideMaxFlame;
 
 	//変数
 protected:
@@ -24,10 +26,13 @@ protected:
 	PutPos m_cursor;//カーソル
 	int m_bootVertex;//発火点となる辺
 	Vector2D m_center;//中央のマスの描画位置
-	FlowCircle m_flowCircle;//導線を辿る小さな丸
-	ScoreSystem m_score;//スコア
+	std::shared_ptr<ScoreSystem> m_pScore;//スコア
+	FlowEraseCircle m_flowCircle;//導線を辿る小さな丸
 	std::vector<std::shared_ptr<Block>> m_savedBlock;//次に出てくるブロック一覧
 	int m_flame;//現在のスタートからのフレーム数
+
+	FlowGuideCircle m_flowGuideCircle;//導線巡りガイド
+	Timer m_guideTimer;//ガイド制御のためのタイマー
 
 	//パズル全体の管理クラスが持っておくべきかもな変数
 	//時間計測を行うための変数(ポーズや通信ラグにも対応できる仕様)
@@ -39,6 +44,7 @@ protected:
 protected:
 	void AddSavedBlock();//ブロックを一つ貯める
 	void TurnBootVertex(int n);//n回だけ時計回りに発火点を回転させる。n=0でも、現在の位置に発火辺がなければn=1と同じ挙動をする（時計回り方向で一番近い発火辺に移動する）
+	void GuideEnforceEnd();//導線巡りガイドを強制終了させる
 	
 public:
 	PuzzleSystem();
@@ -48,6 +54,7 @@ public:
 	void Draw()const;
 
 	int GetScore()const;
+	bool GetFlowFlag()const;//導線巡りするm_flowCircleが導線巡りが終了しているか
 };
 
 #endif // !DEF_PUZZLESYSTEM_H
