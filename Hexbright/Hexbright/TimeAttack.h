@@ -2,6 +2,7 @@
 
 #include"VGameSystem.h"
 #include"PuzzleSystem.h"
+#include"input.h"
 #include<memory>
 
 //タイムアタックのシステムの実装
@@ -31,6 +32,7 @@ protected:
 protected:
 	std::shared_ptr<PuzzleSystem> m_puzzle;//動かすパズルは１つだけ
 	Phase::Kind m_phase;//現在のゲーム段階
+	InputSingleCharStringControler m_nameInputer;//名前入力用
 	//int m_timer1,m_timer2;//タイマー
 
 	//関数

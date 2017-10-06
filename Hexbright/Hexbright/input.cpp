@@ -232,4 +232,360 @@ void InputControler::MapSaving(){
 
 }
 
+//リアルタイム半角文字列入力のサポート
+const int InputSingleCharStringControler::inputBreakFlame=30;
 
+InputSingleCharStringControler::InputSingleCharStringControler(const std::string &banString,size_t maxLen)
+	:m_string(""),m_banString(banString),m_maxLen(maxLen),m_inputFlag(true)
+{
+	//計算量削減のために、文字数制限が決まっている場合は予めメモリ確保をする。
+	if(maxLen>0){
+		m_string.reserve(maxLen);
+	}
+}
+
+InputSingleCharStringControler::~InputSingleCharStringControler(){}
+
+char InputSingleCharStringControler::InputCharString()const{
+	//スーパーベタ実装。Shift入りの入力を確認する。
+	bool shiftFlag=(keyboard_get(KEY_INPUT_LSHIFT)>0 || keyboard_get(KEY_INPUT_RSHIFT)>0);
+	auto f=[](int key)->bool{int t=keyboard_get(key);return (t==1 || t>=inputBreakFlame);};
+	if(f(KEY_INPUT_TAB)){
+		if(!shiftFlag){
+			return '\t';
+		} else{
+			return '\t';
+		}
+	} else if(f(KEY_INPUT_SPACE)){
+		if(!shiftFlag){
+			return ' ';
+		} else{
+			return ' ';
+		}
+	} else if(f(KEY_INPUT_MINUS)){
+		if(!shiftFlag){
+			return '-';
+		} else{
+			return '=';
+		}
+	} else if(f(KEY_INPUT_YEN)){
+		if(!shiftFlag){
+			return '\\';
+		} else{
+			return '|';
+		}
+	} else if(f(KEY_INPUT_PREVTRACK)){
+		if(!shiftFlag){
+			return '^';
+		} else{
+			return '~';
+		}
+	} else if(f(KEY_INPUT_PERIOD)){
+		if(!shiftFlag){
+			return '.';
+		} else{
+			return '>';
+		}
+	} else if(f(KEY_INPUT_SLASH)){
+		if(!shiftFlag){
+			return '/';
+		} else{
+			return '?';
+		}
+	} else if(f(KEY_INPUT_SEMICOLON)){
+		if(!shiftFlag){
+			return ';';
+		} else{
+			return '+';
+		}
+	} else if(f(KEY_INPUT_COLON)){
+		if(!shiftFlag){
+			return ':';
+		} else{
+			return '*';
+		}
+	} else if(f(KEY_INPUT_LBRACKET)){
+		if(!shiftFlag){
+			return '[';
+		} else{
+			return '{';
+		}
+	} else if(f(KEY_INPUT_RBRACKET)){
+		if(!shiftFlag){
+			return ']';
+		} else{
+			return '}';
+		}
+	} else if(f(KEY_INPUT_AT)){
+		if(!shiftFlag){
+			return '@';
+		} else{
+			return '`';
+		}
+	} else if(f(KEY_INPUT_BACKSLASH)){
+		if(!shiftFlag){
+			return '\\';
+		} else{
+			return '_';
+		}
+	} else if(f(KEY_INPUT_COMMA)){
+		if(!shiftFlag){
+			return ',';
+		} else{
+			return '<';
+		}
+	} else if(f(KEY_INPUT_0)){
+		if(!shiftFlag){
+			return '0';
+		} else{
+			return '\0';
+		}
+	} else if(f(KEY_INPUT_1)){
+		if(!shiftFlag){
+			return '1';
+		} else{
+			return '!';
+		}
+	} else if(f(KEY_INPUT_2)){
+		if(!shiftFlag){
+			return '2';
+		} else{
+			return '"';
+		}
+	} else if(f(KEY_INPUT_3)){
+		if(!shiftFlag){
+			return '3';
+		} else{
+			return '#';
+		}
+	} else if(f(KEY_INPUT_4)){
+		if(!shiftFlag){
+			return '4';
+		} else{
+			return '$';
+		}
+	} else if(f(KEY_INPUT_5)){
+		if(!shiftFlag){
+			return '5';
+		} else{
+			return '%';
+		}
+	} else if(f(KEY_INPUT_6)){
+		if(!shiftFlag){
+			return '6';
+		} else{
+			return '&';
+		}
+	} else if(f(KEY_INPUT_7)){
+		if(!shiftFlag){
+			return '7';
+		} else{
+			return '\'';
+		}
+	} else if(f(KEY_INPUT_8)){
+		if(!shiftFlag){
+			return '8';
+		} else{
+			return '(';
+		}
+	} else if(f(KEY_INPUT_9)){
+		if(!shiftFlag){
+			return '9';
+		} else{
+			return ')';
+		}
+	} else if(f(KEY_INPUT_A)){
+		if(!shiftFlag){
+			return 'a';
+		} else{
+			return 'A';
+		}
+	} else if(f(KEY_INPUT_B)){
+		if(!shiftFlag){
+			return 'b';
+		} else{
+			return 'B';
+		}
+	} else if(f(KEY_INPUT_C)){
+		if(!shiftFlag){
+			return 'c';
+		} else{
+			return 'C';
+		}
+	} else if(f(KEY_INPUT_D)){
+		if(!shiftFlag){
+			return 'd';
+		} else{
+			return 'D';
+		}
+	} else if(f(KEY_INPUT_E)){
+		if(!shiftFlag){
+			return 'e';
+		} else{
+			return 'E';
+		}
+	} else if(f(KEY_INPUT_F)){
+		if(!shiftFlag){
+			return 'f';
+		} else{
+			return 'F';
+		}
+	} else if(f(KEY_INPUT_G)){
+		if(!shiftFlag){
+			return 'g';
+		} else{
+			return 'G';
+		}
+	} else if(f(KEY_INPUT_H)){
+		if(!shiftFlag){
+			return 'h';
+		} else{
+			return 'H';
+		}
+	} else if(f(KEY_INPUT_I)){
+		if(!shiftFlag){
+			return 'i';
+		} else{
+			return 'I';
+		}
+	} else if(f(KEY_INPUT_J)){
+		if(!shiftFlag){
+			return 'j';
+		} else{
+			return 'J';
+		}
+	} else if(f(KEY_INPUT_K)){
+		if(!shiftFlag){
+			return 'k';
+		} else{
+			return 'K';
+		}
+	} else if(f(KEY_INPUT_L)){
+		if(!shiftFlag){
+			return 'l';
+		} else{
+			return 'L';
+		}
+	} else if(f(KEY_INPUT_M)){
+		if(!shiftFlag){
+			return 'm';
+		} else{
+			return 'M';
+		}
+	} else if(f(KEY_INPUT_N)){
+		if(!shiftFlag){
+			return 'n';
+		} else{
+			return 'N';
+		}
+	} else if(f(KEY_INPUT_O)){
+		if(!shiftFlag){
+			return 'o';
+		} else{
+			return 'O';
+		}
+	} else if(f(KEY_INPUT_P)){
+		if(!shiftFlag){
+			return 'p';
+		} else{
+			return 'P';
+		}
+	} else if(f(KEY_INPUT_Q)){
+		if(!shiftFlag){
+			return 'q';
+		} else{
+			return 'Q';
+		}
+	} else if(f(KEY_INPUT_R)){
+		if(!shiftFlag){
+			return 'r';
+		} else{
+			return 'R';
+		}
+	} else if(f(KEY_INPUT_S)){
+		if(!shiftFlag){
+			return 's';
+		} else{
+			return 'S';
+		}
+	} else if(f(KEY_INPUT_T)){
+		if(!shiftFlag){
+			return 't';
+		} else{
+			return 'T';
+		}
+	} else if(f(KEY_INPUT_U)){
+		if(!shiftFlag){
+			return 'u';
+		} else{
+			return 'U';
+		}
+	} else if(f(KEY_INPUT_V)){
+		if(!shiftFlag){
+			return 'v';
+		} else{
+			return 'V';
+		}
+	} else if(f(KEY_INPUT_W)){
+		if(!shiftFlag){
+			return 'w';
+		} else{
+			return 'W';
+		}
+	} else if(f(KEY_INPUT_X)){
+		if(!shiftFlag){
+			return 'x';
+		} else{
+			return 'X';
+		}
+	} else if(f(KEY_INPUT_Y)){
+		if(!shiftFlag){
+			return 'y';
+		} else{
+			return 'Y';
+		}
+	} else if(f(KEY_INPUT_Z)){
+		if(!shiftFlag){
+			return 'z';
+		} else{
+			return 'Z';
+		}
+	}
+	/*
+	if(f(KEY_INPUT_)){
+		if(!shiftFlag){
+			return '';
+		} else{
+			return '';
+		}
+	} else 
+	//*/
+	return '\0';
+}
+
+void InputSingleCharStringControler::Update(){
+	if(m_inputFlag){
+		//入力中なら
+		char c=InputCharString();//文字列取得
+		if(keyboard_get(KEY_INPUT_NUMPADENTER)==1){
+			//Enterキーが押された場合
+			m_string.push_back('\0');
+			m_inputFlag=false;//入力終了
+		} else if((keyboard_get(KEY_INPUT_BACK)==1 || keyboard_get(KEY_INPUT_BACK)>inputBreakFlame) && !m_string.empty()){
+			//backキーが押された場合(30フレーム以降は連続入力)
+			m_string.pop_back();//1文字削除
+		} else{
+			//その他の入力
+			if(c!='\0'){
+				//無入力ではない
+				if(m_maxLen==0 || m_string.size()+1<m_maxLen){
+					//文字数制限をクリアしている
+					if(m_banString.find(c)==std::string::npos){
+						//禁止文字列の入力でもない
+						m_string.push_back(c);
+					}
+				}
+			}
+		}
+	}
+}
