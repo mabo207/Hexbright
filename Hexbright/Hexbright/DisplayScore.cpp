@@ -62,8 +62,10 @@ void DisplayRanking::Draw()const{
 	DrawStringCenterBaseToHandle(dx/2,0,"RANKING",GetColor(255,255,125),m_font,false);
 	SetDrawArea(0,size,dx,dy);
 	for(unsigned int i=0;i<m_scoreData.size();i++){
-		DrawStringCenterBaseToHandle(dx/2,m_adjustY+(i+1)*(size+10)
-			,(to_string(i+1)+"    "+m_scoreData[i].name+"    "+to_string_0d(m_scoreData[i].score,10)).c_str(),GetColor(255,255,255),m_font,false);
+		if(m_adjustY+(i+1)*(size+10)<dy && +(i+2)*(size+10)>0){
+			DrawStringCenterBaseToHandle(dx/2,m_adjustY+(i+1)*(size+10)
+				,(to_string(i+1)+"    "+m_scoreData[i].name+"    "+to_string_0d(m_scoreData[i].score,10)).c_str(),GetColor(255,255,255),m_font,false);
+		}
 	}
 	SetDrawArea(0,0,dx,dy);
 }
