@@ -77,4 +77,38 @@ public:
 	void MapSaving();
 };
 
+//リアルタイムでの半角文字列入力をサポートするクラス。keyboard_get()を用いる。
+class InputSingleCharStringControler{
+	//型・列挙体
+
+	//定数
+	static const int inputBreakFlame;//キーを押しっぱなしにした時、このフレーム数の間だけ入力を防ぐ
+
+	//変数
+protected:
+	std::string m_string;//入力文字列
+	const std::string m_banString;//入力禁止文字の一覧
+	const size_t m_maxLen;//文字列の長さの上限。0なら制限なし。末尾の'\0'を含める。
+	bool m_inputFlag;//入力中かのフラグ。初期値true
+
+	//関数
+protected:
+	char InputCharString()const;//入力された文字を返す。何も入力されてないなら'\0'を返す。
+
+public:
+	InputSingleCharStringControler(const std::string &banString,size_t maxLen=0);
+	~InputSingleCharStringControler();
+	std::string GetString()const{
+		return m_string;
+	}
+	const char *GetStringCStr()const{
+		return m_string.c_str();
+	}
+	bool GetInputFlag()const{
+		return m_inputFlag;
+	}
+	void Update();//更新。Enterキーの入力で入力が終了しm_inputFlagがfalseとなる。
+
+};
+
 #endif

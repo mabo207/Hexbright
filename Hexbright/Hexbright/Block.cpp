@@ -53,9 +53,9 @@ bool Block::Conductor::JudgeExist()const{
 }
 
 //-------------------Block-------------------
-const int Block::lineThick=3;
-const unsigned int Block::lineColor=DxLib::GetColor(127,127,127);
-const Vector2D Block::BaseVector=Vector2D(0,-32);
+const int Block::lineThick=5;
+const unsigned int Block::lineColor=DxLib::GetColor(64,64,64);
+const Vector2D Block::BaseVector=Vector2D(0,-48);
 
 Block::Block(std::shared_ptr<Hexagon> shape,const std::vector<Conductor> &conductors,Feature i_feature)
 	:m_shape(shape),m_conductors(conductors),m_feature(i_feature){}
@@ -96,11 +96,7 @@ void Block::Draw(Vector2D pos,unsigned int vertexColor,unsigned int conductorCol
 
 void Block::Draw(Vector2D pos,unsigned int inColor,unsigned int vertexColor,unsigned int conductorColor,int alpha,int conductorThick)const{
 	//ê≥òZäpå`ÇÃï`âÊ
-	m_shape.get()->Draw(pos,inColor,alpha);
-	if(vertexColor!=inColor){
-		//ï”ÇÃêFÇïœçXÇµÇΩÇ¢èÍçáÇÃÇ›ï”ÇæÇØîÌÇπÇƒï`âÊ
-		m_shape.get()->Draw(pos,vertexColor,0);
-	}
+	m_shape.get()->Draw(pos,inColor,alpha,vertexColor,3);
 	//ì±ê¸ÇÃï`âÊ
 	int mode,pal;
 	GetDrawBlendMode(&mode,&pal);

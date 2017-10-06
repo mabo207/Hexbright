@@ -53,18 +53,18 @@ Hexagon::Vertexs Hexagon::GetPoints(Vector2D pos)const{
 }
 
 void Hexagon::Draw(unsigned int color,int alpha)const{
-	Draw(m_center,color,alpha,color);
+	Draw(m_center,color,alpha,color,1);
 }
 
-void Hexagon::Draw(unsigned int color,int alpha,unsigned int incolor)const{
-	Draw(m_center,color,alpha,incolor);
+void Hexagon::Draw(unsigned int color,int alpha,unsigned int linecolor)const{
+	Draw(m_center,color,alpha,linecolor,1);
 }
 
 void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha)const{
-	Draw(pos,color,alpha,color);
+	Draw(pos,color,alpha,color,1);
 }
 
-void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha,unsigned int incolor)const{
+void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha,unsigned int linecolor,int lineThick)const{
 	//’¸“_6‚Â‚ğ‹‚ß‚é
 	Vertexs vs=GetPoints(pos);
 	//’†‚Ì•`‰æ(—×Ú‚·‚é‚Q“_‚Æ’†S“_‚É‚æ‚éOŠpŒ`‚ğ‚U‚Â•`‰æ‚·‚é)
@@ -88,7 +88,7 @@ void Hexagon::Draw(Vector2D pos,unsigned int color,int alpha,unsigned int incolo
 	for(int i=0;i<vs.vnum;i++){
 		DrawLine((int)(vs.GetPoint(i%vs.vnum).x),(int)(vs.GetPoint(i%vs.vnum).y)
 			,(int)(vs.GetPoint((i+1)%vs.vnum).x),(int)(vs.GetPoint((i+1)%vs.vnum).y)
-			,color);
+			,linecolor,lineThick);
 	}
 
 }

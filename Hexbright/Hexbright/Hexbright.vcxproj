@@ -125,6 +125,8 @@
     <ClCompile Include="DisplayScore.cpp" />
     <ClCompile Include="FileRead.cpp" />
     <ClCompile Include="FlowCircle.cpp" />
+    <ClCompile Include="FlowEraseCircle.cpp" />
+    <ClCompile Include="FlowGuideCircle.cpp" />
     <ClCompile Include="GraphicControl.cpp" />
     <ClCompile Include="HealBlock.cpp" />
     <ClCompile Include="Hexagon.cpp" />
@@ -146,8 +148,10 @@
     <ClInclude Include="ConnectBlock.h" />
     <ClInclude Include="DisplayRanking.h" />
     <ClInclude Include="FileRead.h" />
-    <ClInclude Include="Flowcircle.h" />
     <ClInclude Include="picojson.h" />
+    <ClInclude Include="FlowCircle.h" />
+    <ClInclude Include="FlowEraseCircle.h" />
+    <ClInclude Include="FlowGuideCircle.h" />
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="VGameSystem.h" />
