@@ -271,3 +271,7 @@ void PuzzleSystem::Draw()const{
 int PuzzleSystem::GetScore()const{
 	return m_pScore->GetScore();
 }
+
+bool PuzzleSystem::GetFlowFlag()const{
+	return m_flowCircle.flowflag;
+}

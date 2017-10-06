@@ -54,6 +54,7 @@ public:
 	void Draw()const;
 
 	int GetScore()const;
+	bool GetFlowFlag()const;//“±ü„‚è‚·‚ém_flowCircle‚ª“±ü„‚è‚ªI—¹‚µ‚Ä‚¢‚é‚©
 };
 
 #endif // !DEF_PUZZLESYSTEM_H
