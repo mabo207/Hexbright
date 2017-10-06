@@ -57,11 +57,11 @@ int TimeAttack::VCalculate(){
 		if(!m_puzzle->GetFlowFlag()){
 			//FlowEraseCircle‚Ì“±ü„‚è‚ªI—¹‚µ‚½‚ç
 			m_phase=Phase::RESULT;
-			m_timer.SetTimer(5,true);
+			m_timer.SetTimer(2,true);
 		}
 		break;
 	case(Phase::RESULT):
-		if(m_timer.JudgeEnd() && keyboard_get(KEY_INPUT_NUMPADENTER)==1){
+		if(m_timer.JudgeEnd()){
 			//ƒQ[ƒ€I—¹‰æ–Ê‚ğ•Â‚¶‚éŠÔ‚É‚È‚Á‚½‚ç
 			m_phase=Phase::NAMEINPUT;
 		}

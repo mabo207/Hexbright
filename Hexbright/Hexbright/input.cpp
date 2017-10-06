@@ -569,7 +569,6 @@ void InputSingleCharStringControler::Update(){
 		char c=InputCharString();//文字列取得
 		if(keyboard_get(KEY_INPUT_NUMPADENTER)==1){
 			//Enterキーが押された場合
-			m_string.push_back('\0');
 			m_inputFlag=false;//入力終了
 		} else if((keyboard_get(KEY_INPUT_BACK)==1 || keyboard_get(KEY_INPUT_BACK)>inputBreakFlame) && !m_string.empty()){
 			//backキーが押された場合(30フレーム以降は連続入力)
