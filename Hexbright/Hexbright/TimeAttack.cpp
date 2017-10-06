@@ -9,7 +9,7 @@ TimeAttack::TimeAttack()
 	m_puzzle(std::shared_ptr<PuzzleSystem>(new PuzzleSystem())),
 	m_phase(Phase::BEFORESTART)//,m_timer1(0),m_timer2(6*60)
 {
-	m_timer.SetTimer(6,true);
+	m_timer.SetTimer(4,true);
 }
 
 TimeAttack::~TimeAttack(){}
@@ -36,7 +36,7 @@ int TimeAttack::VCalculate(){
 		m_puzzle->Update();
 		
 		//---------------------------------デバッグコード---------------------------------
-		if(keyboard_get(KEY_INPUT_L)>0){
+		if(keyboard_get(KEY_INPUT_L)>=60){
 			m_timer.EnforceEnd();
 		}
 		//---------------------------------デバッグコード終了---------------------------------

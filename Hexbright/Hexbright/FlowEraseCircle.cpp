@@ -8,7 +8,7 @@
 */
 
 FlowEraseCircle::FlowEraseCircle(PutPos i_blockPos,Vector2D i_drawPos,std::shared_ptr<ScoreSystem> i_pScoreSystem)
-	:FlowCircle(i_blockPos,i_drawPos,Block::BaseVector.size()/15,(float)1.05),m_pScoreSystem(i_pScoreSystem)
+	:FlowCircle(i_blockPos,i_drawPos,Block::BaseVector.size()/10,(float)1.05),m_pScoreSystem(i_pScoreSystem)
 {
 	//ÉQÅ[ÉÄäJénéûÇ…ÇÃÇ›åƒÇŒÇÍÇÈÇÃÇ≈Ç±ÇÍÇ≈ó«Ç¢
 	speed=baseSpeed;

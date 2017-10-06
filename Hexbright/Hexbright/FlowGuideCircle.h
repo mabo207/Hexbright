@@ -10,6 +10,7 @@ protected:
 
 	//•Ï”
 protected:
+	std::vector<Vector2D> m_pointPoss;//Ü‚êü‚ÌÜ‚ê‚éÀ•WŒQ
 
 	//ŠÖ”
 protected:
@@ -18,6 +19,7 @@ protected:
 public:
 	FlowGuideCircle(PutPos i_blockPos,Vector2D i_drawPos);
 	~FlowGuideCircle();
+	bool Boot(const Stage &stage,const PutPos &cursor,const int bootVertex);//m_pointPoss‚ğ‰Šú‰»‚·‚é
 	void Draw(Vector2D center)const;
 };
 

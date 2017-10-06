@@ -255,7 +255,10 @@ void PuzzleSystem::Draw()const{
 	DrawCircle((int)v.x,(int)v.y,3,GetColor(196,224,255),TRUE);
 	//丸の描画
 	m_flowCircle.Draw(m_center);
-	m_flowGuideCircle.Draw(m_center);
+	if(!m_flowCircle.flowflag){
+		//導線巡りしてる時は表示しない。うっとおしい。
+		m_flowGuideCircle.Draw(m_center);
+	}
 	//溜まっているブロック群の描画
 	for(size_t i=0;i<m_savedBlock.size();i++){
 		m_savedBlock[i].get()->Draw(Vector2D(aPuzzleSize.x-80,(float)(aPuzzleSize.y*(i/7.0+1/5.0))));

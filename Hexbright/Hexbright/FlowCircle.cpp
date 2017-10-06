@@ -29,8 +29,8 @@ void FlowCircle::Update(const Stage &stage,const PutPos &cursor,const Vector2D &
 		//位置変更
 		drawPos=drawPos+(destination-drawPos).norm()*speed;
 		//目的地到達の判定
-		//目的地と現在位置の距離がspeedの半分以下なら到達とする
-		if((destination-drawPos).size()<=speed/2){
+		//目的地と現在位置の距離がspeedの半分以下なら到達とする。ただし計算誤差があって無限ループする可能性があるので0.01広げる
+		if((destination-drawPos).size()<=speed/2+0.01){
 			//現在いるブロックを変更
 			switch(endVertex){
 			case(0)://右上の辺に進んだ
